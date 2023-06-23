@@ -1,7 +1,9 @@
 const PATH = {
     Splash: "Splash",
     OnBoarding: "OnBoarding",
-    Login: "Login"
+    Login: "Login",
+    Home: "Home",
+    OTP: "OTP"
 }
 
 export default PATH

@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { postLogin } from "../../Network/AuthenticationFlow/RemoteStorage"
+import { setUserDefault } from "../../LocalStorage/UserDefault"
+import PATH from "../../Navigator/PathNavigation"
 
-const LoginModel = () => {
+const LoginModel = ({ navigation }) => {
     const [error, setError] = useState({
         isNotValid: false,
         isEmpty: true
@@ -31,9 +33,11 @@ const LoginModel = () => {
     const handlePostLogin = async () => {
         try {
             const result = await postLogin(loginData)
-            console.log('SUCCESS POST LOGIN',result);
+            await setUserDefault(result.data)
+
+            navigation.replace(PATH.Home)
         } catch (err) {
-            console.log('ERROR POST LOGIN', err);
+            console.log('ERROR POST LOGIN', JSON.stringify(err));
             setError({
                 ...error,
                 ['isNotValid']: true

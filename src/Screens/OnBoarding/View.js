@@ -1,11 +1,12 @@
-import { View, Image, FlatList, Dimensions, Text, Animated, useWindowDimensions } from "react-native"
+import { View, Image, FlatList, Dimensions, Text, Animated, useWindowDimensions, TouchableHighlight, TouchableOpacity } from "react-native"
 import OnBoardingModel from "./Model"
 
 const OnBoardingView = ({ navigation }) => {
     const { 
+        currentIndex,
         slides, 
         scrollX,
-        currentIndex,
+        scrollTo,
         viewConfig,
         slidesRef,
         handleLoginButton,
@@ -14,6 +15,9 @@ const OnBoardingView = ({ navigation }) => {
 
     return (
         <View className="flex-1 bg-white">
+            {
+                currentIndex == slides.length - 1 ? null : <SkipButton scrollTo={scrollTo}/>
+            }
             <FlatList 
                 data={slides}
                 renderItem={SlideView}
@@ -30,12 +34,35 @@ const OnBoardingView = ({ navigation }) => {
                 viewabilityConfig={viewConfig}
                 ref={slidesRef}
             />
-            <Paginator data={slides} scrollX={scrollX}/>
+            {
+                currentIndex == slides.length - 1 ? <LoginButton handleLoginButton ={handleLoginButton} /> : <Paginator data={slides} scrollX={scrollX}/>
+            }
+            
         </View>
     )
 }
 
 export default OnBoardingView
+
+const LoginButton = ({handleLoginButton}) => {
+    return (
+        <View className="flex items-center justify-center mb-10 px-6">
+            <TouchableHighlight onPress={handleLoginButton} className="bg-PrimaryNormal py-3 rounded-md w-full items-center">
+                <Text className="text-white font-semibold">Login</Text>
+            </TouchableHighlight>
+        </View>
+    )
+}
+
+const SkipButton = ({ scrollTo }) => {
+    return (
+        <View className="flex items-end justify-center p-3">
+            <TouchableOpacity onPress={scrollTo} className="w-8 h-8">
+                <Text className="text-SecondaryDarker font-normal text-sm">Skip</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
 
 const Paginator = ({data, scrollX}) => {
     const { width } = useWindowDimensions()

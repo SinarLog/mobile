@@ -3,13 +3,13 @@ import LogoLabelIcon from "../../assets/logoLabelIcon/logoLabelIcon.png"
 import LoginModel from "./Model"
 
 
-const LoginView = () => {
+const LoginView = ({ navigation }) => {
     const { 
         loginData,
         error,
         handleInputChange,
         handleLoginButton
-    } = LoginModel()
+    } = LoginModel({ navigation })
 
     return (
         <View className="flex-1 px-6 bg-white">
@@ -45,6 +45,7 @@ const LoginView = () => {
             <TouchableHighlight 
                 className={`${error.isEmpty ? 'bg-InactiveNormal' : 'bg-PrimaryNormal'} rounded-xl items-center py-3 mt-6`}
                 onPress={handleLoginButton}
+                disabled= {error.isEmpty}
             >
                 <Text className="text-white text-base">Login</Text>
             </TouchableHighlight>

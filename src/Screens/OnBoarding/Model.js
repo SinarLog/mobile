@@ -5,6 +5,7 @@ import firstOnboardingIcon from '../../assets/firstOnboardingIcon/firstOnboardin
 import secondOnboardingIcon from '../../assets/secondOnboardingIcon/secondOnboardingIcon.png'
 import thirdOnboardingIcon from '../../assets/thirdOnboardingIcon/thirdOnboardingIcon.png'
 import FourthOnboardingIcon from "../../assets/forthOnboardingIcon/forthOnboardingIcon.png"
+import { setOnboarding } from "../../LocalStorage/ViewedOnboarding"
 
 const OnBoardingModel = ({navigation}) => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -17,8 +18,15 @@ const OnBoardingModel = ({navigation}) => {
 
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50}).current
 
-    const handleLoginButton = () => {
+    const handleLoginButton = async () => {
+        await setOnboarding()
         navigation.navigate(PATH.Login)
+    }
+
+    const scrollTo = () => {
+        if (currentIndex < slides.length - 1) {
+            slidesRef.current.scrollToIndex({index: slides.length - 1})
+        }
     }
 
     const slides = [
@@ -50,9 +58,10 @@ const OnBoardingModel = ({navigation}) => {
     
 
     return {
+        currentIndex,
         slides, 
         scrollX,
-        currentIndex,
+        scrollTo,
         viewConfig,
         slidesRef,
         handleLoginButton,

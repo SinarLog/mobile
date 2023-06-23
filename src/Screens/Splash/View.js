@@ -3,12 +3,19 @@ import LogoIcon from "../../assets/logoIcon/logoIcon.png"
 import LabelIcon from "../../assets/labelIcon/labelIcon.png"
 import React, { useEffect } from 'react';
 import PATH from "../../Navigator/PathNavigation";
+import { checkOnboarding } from "../../LocalStorage/ViewedOnboarding";
 
 
 const SplashView = ({ navigation }) => {
     useEffect(()=>{
-        const timer = setTimeout(() => {
-            navigation.replace(PATH.OnBoarding)
+        const timer = setTimeout( async () => {
+            const viewedOnboarding = await checkOnboarding()
+
+            if (viewedOnboarding) {
+                navigation.replace(PATH.Login)
+            } else {
+                navigation.replace(PATH.OnBoarding)
+            }
         }, 3000);
 
         return () => clearTimeout(timer)
