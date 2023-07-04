@@ -27,22 +27,16 @@ const requestLocationPermission = async () => {
     }
   }
 
-export const getLocation = () => {
-    const result = requestLocationPermission()
-    result.then(res => {
-      console.log('res is:', res)
-      if (res) {
-        Geolocation.getCurrentPosition(
-          position => {
-            console.log('Position',position)
-            return position
-          },
-          error => {
-            // See error code charts below.
-            console.log('Error Get Location',error.code, error.message);
-          },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        )
-      }
+export const getLocation = async () => {
+  const result = await requestLocationPermission()
+  if (result) {
+    return new Promise((resolve, reject) => {
+
+      Geolocation.getCurrentPosition(
+        resolve,
+        reject,
+      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      )
     })
+  }
 }

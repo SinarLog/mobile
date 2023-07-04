@@ -1,13 +1,14 @@
-import { SafeAreaView } from "react-native"
+// import { SafeAreaView } from "react-native"
 import AppNavigator from './src/Navigator/AppNavigator'
-import OTPview from "./src/Screens/OTP/View"
+import { GestureHandlerRootView } from "react-native-gesture-handler" 
+import LeaveRequestView from './src/Screens/LeaveRequest/View'
 
 const App = () => {
     return (
-        <SafeAreaView className="flex-1 font-inter">
-            <AppNavigator/>
-            {/* <OTPview/> */}
-        </SafeAreaView>
+        <GestureHandlerRootView className="flex-1 font-inter">
+                {/* <AppNavigator/> */}
+                <LeaveRequestView/>
+        </GestureHandlerRootView>
     )
 }
 

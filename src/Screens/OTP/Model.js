@@ -40,10 +40,12 @@ const OTPModel = ({ navigation, route }) => {
                 lat: position.coords.latitude,
                 long: position.coords.longitude
             }
+            console.log('CLOCK IN DATA',clockInData);
             await postClockIn(clockInData)
             navigation.replace(PATH.Home)
         } catch (error) {
             console.log('Error Post Clock In', error);
+            console.log('POSITION CLOCK IN', position);
         }
     }
 
