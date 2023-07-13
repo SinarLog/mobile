@@ -6,6 +6,8 @@ import OnBoardingView from "../Screens/OnBoarding/View"
 import LoginView from "../Screens/Login/View"
 import HomeView from "../Screens/Home/View"
 import OTPview from "../Screens/OTP/View"
+import LeaveRequestView from "../Screens/LeaveRequest/View"
+import LeaveDetailView from "../Screens/LeaveDetail/View"
 
 const Stack = createNativeStackNavigator()
 
@@ -18,6 +20,8 @@ const AppNavigator = () => {
                 <Stack.Screen name={PATH.Login} component={LoginView}/>
                 <Stack.Screen name={PATH.Home} component={HomeView}/>
                 <Stack.Screen name={PATH.OTP} component={OTPview} />
+                <Stack.Screen name={PATH.requestLeave} component={LeaveRequestView}/>
+                <Stack.Screen name={PATH.detailLeave} component={LeaveDetailView}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -6,12 +6,17 @@ import { getLocation } from "../../Geolocation/Location"
 import { getClockIn, getClockOut, postClockOut } from "../../Network/AttendanceFlow/RemoteStorage"
 import { getClockInLocalData, getclockoutLocalData } from "../../LocalStorage/AttendanceData"
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
+import { getAnalytics } from "../../Network/AnalyticsFlow/RemoteStorage"
+import { getMyLeaveRequest } from "../../Network/LeaveFlow/RemoteStorage"
 
 const HomeModel = ({ navigation }) => {
     const [userData, setUserData] = useState({})
     const [clockIn, setClockIn] = useState(null)
     const [clockOut, setClockOut] = useState(null)
+    const [analytics, setAnalytics] = useState({})
+    const [leaveRequest, setLeaveRequest] = useState([])
     const [reasonOvertime, setReasonOvertime] = useState("")
+    const [refreshing, setRefreshing] = useState(false)
 
     const currentDate = new Date()
     const formattedDate = format(currentDate,'EEE d MMM')
@@ -112,10 +117,12 @@ const HomeModel = ({ navigation }) => {
         async function fetchData() {
             const userDefault = await getUserDefault()
             setUserData({...userData, ...userDefault})
+            await handleClockInView()
+            await handleClockOutView()
+            await handleAnalyticsView()
+            await handleMyLeaveRequestView()
         }
         fetchData()
-        handleClockInView()
-        handleClockOutView()
     },[])
 
     const handleClockIn = async () => {
@@ -150,6 +157,62 @@ const HomeModel = ({ navigation }) => {
         }
     }
 
+    const handleAnalyticsView = async () => {
+        try {
+            const data = await getAnalytics()
+            if (data) {
+                setAnalytics({...analytics, ...data})
+            }
+        } catch (error) {
+            console.log('Error get analytics', error);
+        }
+    }
+
+    const handleMyLeaveRequestView = async () => {
+        try {
+            const data = await getMyLeaveRequest()
+            if (data) {
+                const updatedData = data.map(item => {
+                    const status = item.status.toLowerCase()
+                    const leaveType = item.leaveType.toLowerCase()
+                    if (item.status === 'PENDING') {
+                        return {
+                            ...item,
+                            status: status.charAt(0).toUpperCase() + status.slice(1),
+                            leaveType: leaveType.charAt(0).toUpperCase() + leaveType.slice(1),
+                            color: '#A3A3A3'
+                        }
+                    } else if (item.status === "APPROVED") {
+                        return {
+                            ...item,
+                            status: status.charAt(0).toUpperCase() + status.slice(1),
+                            leaveType: leaveType.charAt(0).toUpperCase() + leaveType.slice(1),
+                            color: '#4BB543'
+                        }
+                    } else if (item.status === "REJECTED") {
+                        return {
+                            ...item,
+                            status: status.charAt(0).toUpperCase() + status.slice(1),
+                            leaveType: leaveType.charAt(0).toUpperCase() + leaveType.slice(1),
+                            color: '#E54646'
+                        }
+                    }
+                    else {
+                        return {
+                            ...item,
+                            status: status.charAt(0).toUpperCase() + status.slice(1),
+                            leaveType: leaveType.charAt(0).toUpperCase() + leaveType.slice(1),
+                            color: '#F0AD4E'
+                        }
+                    }
+                })
+                setLeaveRequest(updatedData)
+            }
+        } catch (error) {
+            console.log('Error get my leave request', error);
+        }
+    }
+
     const handleRequestClockOut = async () => {
         try {
             const data = await getClockOut()
@@ -174,9 +237,15 @@ const HomeModel = ({ navigation }) => {
         }
     }
 
+    const handleRequestLeave = () => {
+        navigation.navigate(PATH.requestLeave)
+    }
 
+    const handleDetailLeave = (id) => {
+        navigation.navigate(PATH.detailLeave, {id, userData})
+    }
 
-    const userDetail = [
+    const userAnalytics = [
         {
             id: 0,
             number: 0,
@@ -185,77 +254,57 @@ const HomeModel = ({ navigation }) => {
         },
         {
             id: 1,
-            number: 12,
+            number: analytics ? analytics.yearlyCount : 0,
+            title: "Leave Allowance",
+            desc: "Days"
+        },
+        {
+            id: 2,
+            number: analytics ? analytics.lateClockIns : 0,
             title: "Late Clock in",
             desc: "days in month"
         },
         {
-            id: 2,
-            number: 12,
+            id: 3,
+            number: analytics ? analytics.earlyClockOuts : 0,
             title: "Early Clock out",
             desc: "days in month"
         },
         {
-            id: 3,
-            number: 6,
-            title: "Paid leave request",
-            desc: "days in month"
-        },
-        {
             id: 4,
-            number: 6,
+            number: analytics ? analytics.unpaidCount : 0,
             title: "Unpaid leave request",
-            desc: "days in month"
+            desc: "times in month"
         }
     ]
 
-    const leaveRequest = [
-        {
-            id: 0,
-            leaveType: "Leave type",
-            startDate: "Start Date",
-            endDate: "End Date",
-            duration: "Duration",
-            status: "Pending"
-        },
-        {
-            id: 1,
-            leaveType: "Leave type",
-            startDate: "Start Date",
-            endDate: "End Date",
-            duration: "Duration",
-            status: "Pending"
-        },
-        {
-            id: 2,
-            leaveType: "Leave type",
-            startDate: "Start Date",
-            endDate: "End Date",
-            duration: "Duration",
-            status: "Pending"
-        },
-        {
-            id: 3,
-            leaveType: "Leave type",
-            startDate: "Start Date",
-            endDate: "End Date",
-            duration: "Duration",
-            status: "Pending"
+    useEffect(() => {
+        async function fetchData() {
+            if (refreshing) {
+                await handleAnalyticsView()
+                await handleMyLeaveRequestView()
+            }
+            setRefreshing(false)
         }
-    ]
+        fetchData()
+    },[refreshing])
 
     return {
         userData,
         clockIn,
         clockOut,
         formattedDate,
-        userDetail,
+        userAnalytics,
         leaveRequest,
         bottomSheet,
         reasonOvertime,
+        refreshing,
         handleClockIn,
         handleRequestClockOut,
-        setReasonOvertime
+        setReasonOvertime,
+        handleRequestLeave,
+        handleDetailLeave,
+        setRefreshing
     }
 }
 

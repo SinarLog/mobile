@@ -3,7 +3,9 @@ const PATH = {
     OnBoarding: "OnBoarding",
     Login: "Login",
     Home: "Home",
-    OTP: "OTP"
+    OTP: "OTP",
+    requestLeave: "RequestLeave",
+    detailLeave: "DetailLeave",
 }
 
 export default PATH
