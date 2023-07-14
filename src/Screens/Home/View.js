@@ -1,4 +1,4 @@
-import { Animated, Text, View, ImageBackground, Image, Pressable, FlatList } from "react-native"
+import { Text, View, ImageBackground, Image, Pressable, FlatList } from "react-native"
 import homeBackgroundIcon from "../../assets/homeBackgroundIcon/homeBackgroundIcon.png"
 import SunIcon from "../../assets/sunIcon/sunIcon.png"
 import ArrowLeftIcon from "../../assets/arrowLeftIcon/arrowLeftIcon.png"
@@ -10,62 +10,15 @@ import { BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput } from
 import LeaveView from "./components/LeaveView"
 import IncomingView from "./components/IncomingView"
 import AnalyticsView from "./components/AnalyticsView"
-import { TabView } from "react-native-tab-view"
-import { useState } from "react"
+import TabLeaveView from "./components/TabLeaveView"
+import TakingLeaveView from "./components/TakingLeaveView"
+import { getInitials } from "../../utils/helper"
 
 
 const HomeView = ({ navigation }) => {
-    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, setRefreshing } = HomeModel({ navigation })
+    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing } = HomeModel({ navigation })
 
     const dataLayout = [{id: 0, userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, handleClockIn, handleRequestClockOut, handleRequestLeave, handleDetailLeave }]
-
-    const [index, setIndex] = useState(0)
-    const [routes] = useState([
-        {key: 'first', title: 'Leave'},
-        {key: 'second', title: 'Overtime'}
-    ])
-    const _handleIndexChange = (index) => setIndex(index)
-    const _renderTabBar = props => {
-        console.log(props.navigationState.routes);
-        const inputRange = props.navigationState.routes.map((x, i) => i)
-        return (
-            <View style={{backgroundColor:'white',flexDirection:'row',marginTop:32,marginHorizontal:24, borderRadius:16, justifyContent:'space-around'}}>
-                {props.navigationState.routes.map((route, i) => {
-                    const backgroundColor = props.position.interpolate({
-                        inputRange,
-                        outputRange: inputRange.map((inputIndex) =>
-                          inputIndex === i ? 'rgba(229, 70, 70, 1)' : 'rgba(255, 255, 255, 1)'
-                        ),
-                    })
-                    const color = props.position.interpolate({
-                        inputRange,
-                        outputRange: inputRange.map((inputIndex) =>
-                          inputIndex === i ? 'rgba(255, 255, 255, 1)' : 'rgba(229, 70, 70, 1)' 
-                        ),
-                    })
-                    return (
-                        <Pressable 
-                            key={route.key} 
-                            style={{borderRadius:16, alignItems:'center'}} 
-                            onPress={() => setIndex(i)}
-                        >
-                            <Animated.Text style={{color, backgroundColor, flex:1, fontSize:16, fontWeight:400, marginVertical: 8}}>{route.title}</Animated.Text>
-                        </Pressable>
-                    )
-                })}
-            </View>
-        )
-    }
-    const _renderScene = ({ route }) => {
-        switch (route.key) {
-            case 'first':
-                return <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
-            case 'second':
-                return <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
-            default:
-                return null
-        }
-    }
 
     return (
         <BottomSheetModalProvider>
@@ -84,7 +37,14 @@ const HomeView = ({ navigation }) => {
                                     <Text className="font-normal text-xl text-white">{item.userData.fullName ? item.userData.fullName: ''}</Text>
                                     <Text className="font-normal text-xs text-white">{item.userData.job ? item.userData.job.name: ''}</Text>
                                 </View>
-                                <View className="w-8 h-8 bg-white rounded-2xl"></View>
+                                {
+                                    item.userData.avatar ?
+                                    <Image source={{uri: item.userData.avatar}} style={{width: 32, height: 32, borderRadius: 16}} />
+                                    :
+                                    <View className="w-8 h-8 bg-white rounded-2xl items-center justify-center">
+                                        <Text style={{fontSize: 12}}>{ item.userData.fullName ? getInitials(item.userData.fullName) : ''}</Text>
+                                    </View>
+                                }
                             </View>
 
                         </ImageBackground>
@@ -142,25 +102,26 @@ const HomeView = ({ navigation }) => {
                             : null
                             : null
                         }
-                        <AnalyticsView userAnalytics={userAnalytics} handleRequestLeave={handleRequestLeave}/>
-                        
-                        {/* <View className="bg-white flex-row mt-8 mx-6 rounded-2xl justify-around">
-                            <Pressable className="flex-1 bg-PrimaryNormal py-2 rounded-2xl items-center mr-2">
-                                <Text className="text-base text-white font-normal">Leave</Text>
-                            </Pressable>
-                            <Pressable className="flex-1  py-2 rounded-2xl items-center">
-                                <Text className="text-base text-PrimaryNormal font-normal">Overtime</Text>
-                            </Pressable>
-                        </View> */}
-                        <TabView 
-                            navigationState={{ index, routes }}
-                            renderScene={_renderScene}
-                            renderTabBar={props => _renderTabBar(props)}
-                            onIndexChange={_handleIndexChange}
+                        <AnalyticsView 
+                            userAnalytics={userAnalytics} 
+                            handleRequestLeave={handleRequestLeave}
                         />
-                        {/* <TabLeaveView /> */}
-                        {/* <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/> */}
-                        
+                        {
+                            userData.role ? 
+                            userData.role.name === 'Staff' ?
+
+                            <TabLeaveView 
+                                leaveRequest={leaveRequest} 
+                                handleDetailLeave={handleDetailLeave} 
+                                overtimeSubmissions={overtimeSubmissions} 
+                                handleDetailOvertime={handleDetailOvertime}
+                            />
+                            :
+                            <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
+                            : 
+                            null
+                        }
+                        <TakingLeaveView takingLeaves={takingLeaves} />
                     </View>
                 )}
             />

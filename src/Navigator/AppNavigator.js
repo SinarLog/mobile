@@ -8,9 +8,79 @@ import HomeView from "../Screens/Home/View"
 import OTPview from "../Screens/OTP/View"
 import LeaveRequestView from "../Screens/LeaveRequest/View"
 import LeaveDetailView from "../Screens/LeaveDetail/View"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import EmployeeView from "../Screens/Employee/View"
+import HistoryView from "../Screens/History/View"
+import ProfileView from "../Screens/Profile/View"
+import HomeIcon from "../assets/homeIcon/homeIcon.png"
+import EmployeeIcon from "../assets/usersIcon/usersIcon.png"
+import HistoryIcon from "../assets/fileTextIcon/fileTextIcon.png"
+import ProfileIcon from "../assets/userIcon/userIcon.png"
+import { Image } from "react-native"
+
+const ProfileStack = createNativeStackNavigator()
+const ProfileStackScreen = () => (
+    <ProfileStack.Navigator initialRouteName={PATH.profile} screenOptions={{headerShown: false}}>
+        <ProfileStack.Screen name={PATH.profile} component={ProfileView}/>
+    </ProfileStack.Navigator>
+)
+
+const HistoryStack = createNativeStackNavigator()
+const HistoryStackScreen = () => (
+    <HistoryStack.Navigator initialRouteName={PATH.history} screenOptions={{headerShown: false}}>
+        <HistoryStack.Screen name={PATH.history} component={HistoryView}/>
+    </HistoryStack.Navigator>
+)
+
+const EmployeeStack = createNativeStackNavigator()
+const EmployeeStackScreen = () => (
+    <EmployeeStack.Navigator initialRouteName={PATH.employee} screenOptions={{headerShown: false}}>
+        <EmployeeStack.Screen name={PATH.employee} component={EmployeeView}/>
+    </EmployeeStack.Navigator>
+)
+
+const HomeStack = createNativeStackNavigator()
+const HomeStackScreen = () => (
+    <HomeStack.Navigator initialRouteName={PATH.Home} screenOptions={{headerShown: false}}>
+        <HomeStack.Screen name={PATH.Home} component={HomeView}/>
+        <HomeStack.Screen name={PATH.OTP} component={OTPview} />
+        <HomeStack.Screen name={PATH.requestLeave} component={LeaveRequestView}/>
+        <HomeStack.Screen name={PATH.detailLeave} component={LeaveDetailView}/>
+    </HomeStack.Navigator>
+)
+
+const Tab = createBottomTabNavigator()
+const MainTab = () => {
+    return (
+        <Tab.Navigator 
+            initialRouteName={PATH.tabHome} 
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarActiveTintColor: '#E54646',
+                tabBarInactiveTintColor: '#4C4C4C',
+                tabBarStyle: {paddingBottom:8,paddingTop:8},
+                tabBarIcon: ({ focused, color, size }) => {
+                    if (route.name === 'Home') {
+                        return <Image source={HomeIcon} style={{width:20, height:20, tintColor: color}}/>
+                    } else if (route.name === 'Employee') {
+                        return <Image source={EmployeeIcon} style={{width:20, height:20, tintColor: color}}/>
+                    } else if (route.name === 'History') {
+                        return <Image source={HistoryIcon} style={{width:20, height:20, tintColor: color}}/>
+                    } else {
+                        return <Image source={ProfileIcon} style={{width:20, height:20, tintColor: color}}/>
+                    }
+                } 
+            })}
+        >
+            <Tab.Screen name={PATH.tabHome} component={HomeStackScreen}/>
+            <Tab.Screen name={PATH.tabEmployee} component={EmployeeStackScreen}/>
+            <Tab.Screen name={PATH.tabHistory} component={HistoryStackScreen}/>
+            <Tab.Screen name={PATH.tabProfile} component={ProfileStackScreen}/>
+        </Tab.Navigator>
+    )
+}
 
 const Stack = createNativeStackNavigator()
-
 const AppNavigator = () => {
     return (
         <NavigationContainer>
@@ -18,10 +88,7 @@ const AppNavigator = () => {
                 <Stack.Screen name={PATH.Splash} component={SplashView}/>
                 <Stack.Screen name={PATH.OnBoarding} component={OnBoardingView}/>
                 <Stack.Screen name={PATH.Login} component={LoginView}/>
-                <Stack.Screen name={PATH.Home} component={HomeView}/>
-                <Stack.Screen name={PATH.OTP} component={OTPview} />
-                <Stack.Screen name={PATH.requestLeave} component={LeaveRequestView}/>
-                <Stack.Screen name={PATH.detailLeave} component={LeaveDetailView}/>
+                <Stack.Screen name={PATH.tabMain} component={MainTab}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

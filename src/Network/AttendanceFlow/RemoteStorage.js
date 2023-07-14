@@ -1,6 +1,14 @@
 import { setClockIn, setclockout } from "../../LocalStorage/AttendanceData"
 import sinarlogClient from "../SinarlogClient"
 
+export function getMyOvertimeSubmissions() {
+    return new Promise((resolve, reject) => {
+        sinarlogClient.get('/empl/overtimes')
+        .then((res) => resolve(res.data.data))
+        .catch((err) => reject(err.response))
+    })
+}
+
 export function getClockIn() {
     return new Promise((resolve, reject) => {
         sinarlogClient.get('/empl/attendances/clockin')

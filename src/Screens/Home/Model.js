@@ -3,11 +3,12 @@ import { getUserDefault } from "../../LocalStorage/UserDefault"
 import { format } from "date-fns"
 import PATH from "../../Navigator/PathNavigation"
 import { getLocation } from "../../Geolocation/Location"
-import { getClockIn, getClockOut, postClockOut } from "../../Network/AttendanceFlow/RemoteStorage"
+import { getClockIn, getClockOut, getMyOvertimeSubmissions, postClockOut } from "../../Network/AttendanceFlow/RemoteStorage"
 import { getClockInLocalData, getclockoutLocalData } from "../../LocalStorage/AttendanceData"
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import { getAnalytics } from "../../Network/AnalyticsFlow/RemoteStorage"
 import { getMyLeaveRequest } from "../../Network/LeaveFlow/RemoteStorage"
+import { getWhosTakingLeave } from "../../Network/EmployeeFlow/RemoteStorage"
 
 const HomeModel = ({ navigation }) => {
     const [userData, setUserData] = useState({})
@@ -15,6 +16,8 @@ const HomeModel = ({ navigation }) => {
     const [clockOut, setClockOut] = useState(null)
     const [analytics, setAnalytics] = useState({})
     const [leaveRequest, setLeaveRequest] = useState([])
+    const [overtimeSubmissions, setOvertimeSubmissions] = useState([])
+    const [takingLeaves, setTakingLeaves] = useState([])
     const [reasonOvertime, setReasonOvertime] = useState("")
     const [refreshing, setRefreshing] = useState(false)
 
@@ -121,6 +124,10 @@ const HomeModel = ({ navigation }) => {
             await handleClockOutView()
             await handleAnalyticsView()
             await handleMyLeaveRequestView()
+            await handleWhosTakingLeave()
+            if (userDefault.role.name === 'Staff') {
+                await handleMyOvertimeSubmissions()
+            }
         }
         fetchData()
     },[])
@@ -213,6 +220,53 @@ const HomeModel = ({ navigation }) => {
         }
     }
 
+    const handleMyOvertimeSubmissions = async () => {
+        try {
+            const data = await getMyOvertimeSubmissions()
+            if (data) {
+                const updatedData = data.map(item => {
+                    if (item.status === 'PENDING') {
+                        return {
+                            ...item,
+                            color: '#A3A3A3'
+                        }
+                    } else if (item.status === "APPROVED") {
+                        return {
+                            ...item,
+                            color: '#4BB543'
+                        }
+                    } else if (item.status === "REJECTED") {
+                        return {
+                            ...item,
+                            color: '#E54646'
+                        }
+                    }
+                    else {
+                        return {
+                            ...item,
+                            color: '#F0AD4E'
+                        }
+                    }
+                })
+                console.log(updatedData);
+                setOvertimeSubmissions(updatedData)
+            }
+        } catch (error) {
+            console.log('Error get my overtime submissions', error);
+        }
+    }
+
+    const handleWhosTakingLeave = async () => {
+        try {
+            const data = await getWhosTakingLeave()
+            console.log(data)
+            if (data) {
+                setTakingLeaves(data)
+            }          
+        } catch (error) {
+            console.log('Error get whos taking leave', error)
+        }
+    }
     const handleRequestClockOut = async () => {
         try {
             const data = await getClockOut()
@@ -243,6 +297,10 @@ const HomeModel = ({ navigation }) => {
 
     const handleDetailLeave = (id) => {
         navigation.navigate(PATH.detailLeave, {id, userData})
+    }
+
+    const handleDetailOvertime = (id) => {
+
     }
 
     const userAnalytics = [
@@ -299,11 +357,14 @@ const HomeModel = ({ navigation }) => {
         bottomSheet,
         reasonOvertime,
         refreshing,
+        overtimeSubmissions,
+        takingLeaves,
         handleClockIn,
         handleRequestClockOut,
         setReasonOvertime,
         handleRequestLeave,
         handleDetailLeave,
+        handleDetailOvertime,
         setRefreshing
     }
 }

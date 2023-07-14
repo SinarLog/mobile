@@ -1,70 +1,37 @@
-// import * as React from 'react';
-// import {
-//   Animated,
-//   View,
-//   Pressable,
-//   Text
-// } from 'react-native';
-// import { TabView } from 'react-native-tab-view';
-// import LeaveView from './LeaveView';
+import { Pressable, Text, View } from "react-native"
+import LeaveView from "./LeaveView"
+import { useState } from "react"
+import OvertimeView from "./OvertimeView"
 
-// export default class TabLeaveView extends React.Component {
-//     state = {
-//         index: 0,
-//         routes: [
-//             { key: 'first', title: 'Leave'},
-//             { key: 'second', title: 'Overtime'}
-//         ],
-//     }
+const TabLeaveView = ({leaveRequest, handleDetailLeave, overtimeSubmissions, handleDetailOvertime}) => {
+    const [tab, setTab] = useState('Leave')
 
-//     _handleIndexChange = (index) => this.setState({ index });
+    return (
+        <View>
+            <View className="bg-white flex-row mt-8 mx-6 rounded-2xl justify-around">
+                <Pressable 
+                    className={`flex-1 ${tab === 'Leave' ? 'bg-PrimaryNormal' : 'bg-white'} py-2 rounded-2xl items-center mr-2`}
+                    onPress={() => setTab('Leave')}
+                >
+                    <Text className={`text-base ${tab === 'Leave' ? 'text-white' : 'text-PrimaryNormal'} font-normal`}>Leave</Text>
+                </Pressable>
+                <Pressable 
+                    className={`flex-1 ${tab === 'Overtime' ? 'bg-PrimaryNormal' : 'bg-white'} py-2 rounded-2xl items-center`}
+                    onPress={() => setTab('Overtime')}
+                >
+                    <Text className={`text-base ${tab === 'Overtime' ? 'text-white' : 'text-PrimaryNormal'} font-normal`}>Overtime</Text>
+                </Pressable>
+            </View>
+            {
+                tab === 'Leave' ?
 
-//     _renderTabBar = (props) => {
-//         const inputRange = props.navigationState.routes.map((x,i) => i)
-//         return (
-//             <View style={{backgroundColor:'white',flexDirection:'row',marginTop:32,marginHorizontal:24, borderRadius:16, justifyContent:'space-around'}}>
-//                 {props.navigationState.routes.map((route,i) => {
-//                     const backgroundColor = props.position.interpolate({
-//                         inputRange,
-//                         outputRange: inputRange.map((inputIndex) =>
-//                           inputIndex === i ? 'rgba(229, 70, 70, 1)' : 'rgba(255, 255, 255, 1)'
-//                         ),
-//                     })
-//                     const color = props.position.interpolate({
-//                         inputRange,
-//                         outputRange: inputRange.map((inputIndex) =>
-//                           inputIndex === i ? 'rgba(255, 255, 255, 1)' : 'rgba(229, 70, 70, 1)' 
-//                         ),
-//                     })
-//                     return (
-//                         <Animated.Pressable style={{backgroundColor, flex:1, paddingVertical:8, borderRadius:16, alignItems:'center'}} onPress={() => setIndex(i)}>
-//                             <Animated.Text style={{color, fontSize:16, fontWeight:400}}>{route.title}</Animated.Text>
-//                         </Animated.Pressable>
-//                     )
-//                 })}
-//             </View>
-//         )
-//     }
+                <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
+                : 
+                <OvertimeView overtimeSubmissions={overtimeSubmissions} handleDetailOvertime={handleDetailOvertime} />
+            }
 
-//     _renderScene = ({ route }) => {
-//         switch (route.key) {
-//             case 'first':
-//                 return <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
-//             case 'second':
-//                 <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
-//             default:
-//                 return null
-//         }
-//     }
+        </View>
+    )
+}
 
-//     render() {
-//         return (
-//             <TabView 
-//                 navigationState={this.state}
-//                 renderScene={this._renderScene}
-//                 renderTabBar={this._renderTabBar}
-//                 onIndexChange={this._handleIndexChange}
-//             /> 
-//         )
-//     }
-// }
+export default TabLeaveView

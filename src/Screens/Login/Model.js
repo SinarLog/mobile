@@ -44,7 +44,7 @@ const LoginModel = ({ navigation }) => {
                     await removeclockout()
                 }
             }
-            navigation.replace(PATH.Home)
+            navigation.replace(PATH.tabMain)
         } catch (err) {
             console.log('ERROR POST LOGIN', err);
             setError({
