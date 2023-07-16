@@ -20,6 +20,7 @@ const HomeModel = ({ navigation }) => {
     const [takingLeaves, setTakingLeaves] = useState([])
     const [reasonOvertime, setReasonOvertime] = useState("")
     const [refreshing, setRefreshing] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
 
     const currentDate = new Date()
     const formattedDate = format(currentDate,'EEE d MMM')
@@ -27,8 +28,9 @@ const HomeModel = ({ navigation }) => {
     const bottomSheetOvertimeConfirmation = useRef(null)
     const bottonSheetOvertimeReason = useRef(null)
     const bottomSheetSuccess = useRef(null)
+    const bottomSheetError = useRef(null)
 
-    const snapPoints = useMemo(() => ['20%','40%','70%'],[])
+    const snapPoints = useMemo(() => ['15%','25%','40%','70%'],[])
 
     const handleModalOvertimeConfirmation = useCallback(() => {
         bottomSheetOvertimeConfirmation.current?.present()
@@ -90,6 +92,14 @@ const HomeModel = ({ navigation }) => {
         bottomSheetSuccess.current?.dismiss()
     },[])
 
+    const handleModalErrorPresent = useCallback(() => {
+        bottomSheetError.current?.present()
+    },[])
+
+    const handleModalErrorDismiss = useCallback(() => {
+        bottomSheetError.current?.dismiss()
+    })
+
     const renderBackdrop = useCallback( 
         props => (
             <BottomSheetBackdrop
@@ -104,6 +114,7 @@ const HomeModel = ({ navigation }) => {
         bottomSheetOvertimeConfirmation,
         bottonSheetOvertimeReason,
         bottomSheetSuccess,
+        bottomSheetError,
         snapPoints,
         handleModalOvertimeConfirmation,
         handleModalOvertimeClose,
@@ -113,6 +124,8 @@ const HomeModel = ({ navigation }) => {
         handleModalOvertimeReasonClose,
         handleModalOvertimeSuccessClose,
         handleModalOvertimeReason,
+        handleModalErrorPresent,
+        handleModalErrorDismiss,
         renderBackdrop
     }
 
@@ -139,6 +152,8 @@ const HomeModel = ({ navigation }) => {
             navigation.navigate(PATH.OTP, {position})
         } catch (error) {
             console.log('Error Clock In', error);
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -149,7 +164,9 @@ const HomeModel = ({ navigation }) => {
                 setClockIn({...clockIn, ...data})
             }
         } catch (error) {
-            console.log('Error get local data clockin', error);
+            console.log('Error get local data clockin', error)
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -161,6 +178,8 @@ const HomeModel = ({ navigation }) => {
             }
         } catch (error) {
             console.log('Error get local Clock out', error);
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -171,7 +190,9 @@ const HomeModel = ({ navigation }) => {
                 setAnalytics({...analytics, ...data})
             }
         } catch (error) {
-            console.log('Error get analytics', error);
+            console.log('Error get analytics', error)
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -216,7 +237,9 @@ const HomeModel = ({ navigation }) => {
                 setLeaveRequest(updatedData)
             }
         } catch (error) {
-            console.log('Error get my leave request', error);
+            console.log('Error get my leave request', error)
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -253,6 +276,8 @@ const HomeModel = ({ navigation }) => {
             }
         } catch (error) {
             console.log('Error get my overtime submissions', error);
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
 
@@ -265,6 +290,8 @@ const HomeModel = ({ navigation }) => {
             }          
         } catch (error) {
             console.log('Error get whos taking leave', error)
+            setErrorMessage(error)
+            handleModalErrorPresent()
         }
     }
     const handleRequestClockOut = async () => {
@@ -287,7 +314,9 @@ const HomeModel = ({ navigation }) => {
                 await postClockOut(clockOutData)
             }
         } catch (error) {
-            console.log('Error get Clock Out',error);
+            console.log('Error get Clock Out',error)
+            setErrorMessage(error[0].message)
+            handleModalErrorPresent()
         }
     }
 
@@ -359,6 +388,7 @@ const HomeModel = ({ navigation }) => {
         refreshing,
         overtimeSubmissions,
         takingLeaves,
+        errorMessage,
         handleClockIn,
         handleRequestClockOut,
         setReasonOvertime,

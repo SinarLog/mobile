@@ -13,7 +13,7 @@ export function getClockIn() {
     return new Promise((resolve, reject) => {
         sinarlogClient.get('/empl/attendances/clockin')
         .then((res) => resolve(res.data))
-        .catch((err) => reject(err.response.data.error))
+        .catch((err) => reject(err.response.data.error.errors[0].message))
     })
 }
 
@@ -24,7 +24,7 @@ export function postClockIn(clockInData) {
             await setClockIn()
             resolve(res)
         })
-        .catch((err) => reject(err))
+        .catch((err) => reject(err.response.data.error.errors[0].message))
     })
 }
 
@@ -32,7 +32,7 @@ export function getClockOut() {
     return new Promise((resolve, reject) => {
         sinarlogClient.get('/empl/attendances/clockout')
         .then((res) => resolve(res.data.data))
-        .catch((err) => reject(err.response))
+        .catch((err) => reject(err.response.data.error.errors[0].message))
     })
 }
 
@@ -43,6 +43,6 @@ export function postClockOut(clockOutData) {
             await setclockout()
             resolve(res.data)
         })
-        .catch((err) => reject(err.response.data.error.errors))
+        .catch((err) => reject(err.response.data.error.errors[0].message))
     })
 }

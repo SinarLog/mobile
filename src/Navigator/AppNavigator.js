@@ -17,6 +17,7 @@ import EmployeeIcon from "../assets/usersIcon/usersIcon.png"
 import HistoryIcon from "../assets/fileTextIcon/fileTextIcon.png"
 import ProfileIcon from "../assets/userIcon/userIcon.png"
 import { Image } from "react-native"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
@@ -83,14 +84,16 @@ const MainTab = () => {
 const Stack = createNativeStackNavigator()
 const AppNavigator = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName={PATH.Splash} screenOptions={{headerShown: false}}>
-                <Stack.Screen name={PATH.Splash} component={SplashView}/>
-                <Stack.Screen name={PATH.OnBoarding} component={OnBoardingView}/>
-                <Stack.Screen name={PATH.Login} component={LoginView}/>
-                <Stack.Screen name={PATH.tabMain} component={MainTab}/>
-            </Stack.Navigator>
-        </NavigationContainer>
+        <BottomSheetModalProvider>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName={PATH.Splash} screenOptions={{headerShown: false}}>
+                    <Stack.Screen name={PATH.Splash} component={SplashView}/>
+                    <Stack.Screen name={PATH.OnBoarding} component={OnBoardingView}/>
+                    <Stack.Screen name={PATH.Login} component={LoginView}/>
+                    <Stack.Screen name={PATH.tabMain} component={MainTab}/>
+                </Stack.Navigator>
+            </NavigationContainer>
+        </BottomSheetModalProvider>
     )
 }
 

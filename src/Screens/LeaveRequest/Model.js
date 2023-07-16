@@ -205,7 +205,7 @@ const LeaveRequestModel = ({ navigation }) => {
         try {
             const result = await postApplyLeave(bodyFormData)
             console.log('Success Post Leave', result);
-            navigation.replace(PATH.Home)
+            navigation.replace(PATH.tabMain)
         } catch (error) {
             console.log(bodyFormData);
             console.log('Error Apply Leave', error);

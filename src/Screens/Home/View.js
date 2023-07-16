@@ -16,12 +16,11 @@ import { getInitials } from "../../utils/helper"
 
 
 const HomeView = ({ navigation }) => {
-    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing } = HomeModel({ navigation })
+    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, errorMessage, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing } = HomeModel({ navigation })
 
     const dataLayout = [{id: 0, userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, handleClockIn, handleRequestClockOut, handleRequestLeave, handleDetailLeave }]
 
     return (
-        <BottomSheetModalProvider>
 
         <View className="bg-backgroundHome">
             <FlatList
@@ -127,7 +126,7 @@ const HomeView = ({ navigation }) => {
             />
             <BottomSheetModal
                 ref={bottomSheet.bottomSheetOvertimeConfirmation}
-                index={0}
+                index={1}
                 snapPoints={bottomSheet.snapPoints}
                 backdropComponent={bottomSheet.renderBackdrop}
                 className="rounded-2xl bg-white"
@@ -159,7 +158,7 @@ const HomeView = ({ navigation }) => {
             </BottomSheetModal>
             <BottomSheetModal
                 ref={bottomSheet.bottonSheetOvertimeReason}
-                index={1}
+                index={2}
                 snapPoints={bottomSheet.snapPoints}
                 backdropComponent={bottomSheet.renderBackdrop}
                 keyboardBehavior="fillParent"
@@ -215,8 +214,23 @@ const HomeView = ({ navigation }) => {
                     <Text className="text-black font-medium text-xs text-center mt-4">Thank you for your hard work</Text>
                 </View>
             </BottomSheetModal>
+            <BottomSheetModal
+                ref={bottomSheet.bottomSheetError}
+                index={1}
+                snapPoints={bottomSheet.snapPoints}
+                backdropComponent={bottomSheet.renderBackdrop}
+                className="rounded-2xl bg-white"
+            >
+                <View className="items-center px-8 ">
+                    <Pressable className="absolute right-2 top-1" onPress={bottomSheet.handleModalErrorDismiss}>
+                        <Image source={CloseIcon}/>
+                    </Pressable>
+                    <Image source={CheckIcon} />
+                    <Text className="text-black font-semibold text-xl">Oopps!</Text>
+                    <Text className="text-black font-medium text-xs text-center mt-4">{errorMessage}</Text>
+                </View>
+            </BottomSheetModal>
         </View>
-    </BottomSheetModalProvider>
     )
 }
 
