@@ -3,7 +3,7 @@ import LeaveView from "./LeaveView"
 import { useState } from "react"
 import OvertimeView from "./OvertimeView"
 
-const TabLeaveView = ({leaveRequest, handleDetailLeave, overtimeSubmissions, handleDetailOvertime}) => {
+const TabLeaveView = ({leaveRequest, handleDetailLeave, overtimeSubmissions, handleDetailOvertime, handleLeaveViewAll, handleOvertimeViewAll}) => {
     const [tab, setTab] = useState('Leave')
 
     return (
@@ -25,9 +25,9 @@ const TabLeaveView = ({leaveRequest, handleDetailLeave, overtimeSubmissions, han
             {
                 tab === 'Leave' ?
 
-                <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
+                <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave} handleViewAll={handleLeaveViewAll}/>
                 : 
-                <OvertimeView overtimeSubmissions={overtimeSubmissions} handleDetailOvertime={handleDetailOvertime} />
+                <OvertimeView overtimeSubmissions={overtimeSubmissions} handleDetailOvertime={handleDetailOvertime} handleViewAll={handleOvertimeViewAll}/>
             }
 
         </View>

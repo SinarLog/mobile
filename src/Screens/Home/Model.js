@@ -3,8 +3,7 @@ import { getUserDefault } from "../../LocalStorage/UserDefault"
 import { format } from "date-fns"
 import PATH from "../../Navigator/PathNavigation"
 import { getLocation } from "../../Geolocation/Location"
-import { getClockIn, getClockOut, getMyOvertimeSubmissions, postClockOut } from "../../Network/AttendanceFlow/RemoteStorage"
-import { getClockInLocalData, getclockoutLocalData } from "../../LocalStorage/AttendanceData"
+import { getClockIn, getClockOut, getMyAttendancesLog, getMyOvertimeSubmissions, getTodaysAttendance, postClockOut } from "../../Network/AttendanceFlow/RemoteStorage"
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import { getAnalytics } from "../../Network/AnalyticsFlow/RemoteStorage"
 import { getMyLeaveRequest } from "../../Network/LeaveFlow/RemoteStorage"
@@ -13,11 +12,11 @@ import { getWhosTakingLeave } from "../../Network/EmployeeFlow/RemoteStorage"
 const HomeModel = ({ navigation }) => {
     const [userData, setUserData] = useState({})
     const [clockIn, setClockIn] = useState(null)
-    const [clockOut, setClockOut] = useState(null)
     const [analytics, setAnalytics] = useState({})
     const [leaveRequest, setLeaveRequest] = useState([])
     const [overtimeSubmissions, setOvertimeSubmissions] = useState([])
     const [takingLeaves, setTakingLeaves] = useState([])
+    const [attendaceLogs, setAttendanceLogs] = useState([])
     const [reasonOvertime, setReasonOvertime] = useState("")
     const [refreshing, setRefreshing] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
@@ -133,13 +132,13 @@ const HomeModel = ({ navigation }) => {
         async function fetchData() {
             const userDefault = await getUserDefault()
             setUserData({...userData, ...userDefault})
-            await handleClockInView()
-            await handleClockOutView()
-            await handleAnalyticsView()
-            await handleMyLeaveRequestView()
-            await handleWhosTakingLeave()
+            handleTodaysAttendance()
+            handleAnalyticsView()
+            handleMyLeaveRequestView()
+            handleWhosTakingLeave()
+            handleAttendanceLogs()
             if (userDefault.role.name === 'Staff') {
-                await handleMyOvertimeSubmissions()
+                handleMyOvertimeSubmissions()
             }
         }
         fetchData()
@@ -157,27 +156,16 @@ const HomeModel = ({ navigation }) => {
         }
     }
 
-    const handleClockInView = async () => {
+    const handleTodaysAttendance = async () => {
         try {
-            const data = await getClockInLocalData()
+            const data = await getTodaysAttendance()
             if (data) {
+                console.log('todays attendance', data);
                 setClockIn({...clockIn, ...data})
-            }
-        } catch (error) {
-            console.log('Error get local data clockin', error)
-            setErrorMessage(error)
-            handleModalErrorPresent()
-        }
-    }
 
-    const handleClockOutView = async () => {
-        try {
-            const data = await getclockoutLocalData()
-            if (data) {
-                setClockOut({...clockOut, ...data})
             }
         } catch (error) {
-            console.log('Error get local Clock out', error);
+            console.log('Error Todays Attendance', error);
             setErrorMessage(error)
             handleModalErrorPresent()
         }
@@ -198,7 +186,7 @@ const HomeModel = ({ navigation }) => {
 
     const handleMyLeaveRequestView = async () => {
         try {
-            const data = await getMyLeaveRequest()
+            const data = await getMyLeaveRequest(5)
             if (data) {
                 const updatedData = data.map(item => {
                     const status = item.status.toLowerCase()
@@ -245,7 +233,7 @@ const HomeModel = ({ navigation }) => {
 
     const handleMyOvertimeSubmissions = async () => {
         try {
-            const data = await getMyOvertimeSubmissions()
+            const data = await getMyOvertimeSubmissions(5)
             if (data) {
                 const updatedData = data.map(item => {
                     if (item.status === 'PENDING') {
@@ -271,7 +259,6 @@ const HomeModel = ({ navigation }) => {
                         }
                     }
                 })
-                console.log(updatedData);
                 setOvertimeSubmissions(updatedData)
             }
         } catch (error) {
@@ -284,7 +271,6 @@ const HomeModel = ({ navigation }) => {
     const handleWhosTakingLeave = async () => {
         try {
             const data = await getWhosTakingLeave()
-            console.log(data)
             if (data) {
                 setTakingLeaves(data)
             }          
@@ -294,6 +280,20 @@ const HomeModel = ({ navigation }) => {
             handleModalErrorPresent()
         }
     }
+
+    const handleAttendanceLogs = async () => {
+        try {
+            const data = await getMyAttendancesLog(5)
+            if (data) {
+                setAttendanceLogs(data)
+            }
+        } catch (error) {
+            console.log('Error get My Attendance Log', error)
+            setErrorMessage(error)
+            handleModalErrorPresent()
+        }
+    }
+
     const handleRequestClockOut = async () => {
         try {
             const data = await getClockOut()
@@ -329,7 +329,23 @@ const HomeModel = ({ navigation }) => {
     }
 
     const handleDetailOvertime = (id) => {
+        navigation.navigate(PATH.detailOvertime, { id })
+    }
 
+    const handleLeaveViewAll = () => {
+        navigation.navigate(PATH.myLeaveRequest)
+    }
+
+    const handleOvertimeViewAll = () => {
+        navigation.navigate(PATH.myOvertimeSubmission)
+    }
+
+    const handleTakingLeaveViewAll = () => {
+        navigation.navigate(PATH.whosTakingLeave)
+    }
+
+    const handleAttendanceViewAll = () => {
+        navigation.navigate(PATH.myAttendanceLog)
     }
 
     const userAnalytics = [
@@ -370,6 +386,11 @@ const HomeModel = ({ navigation }) => {
             if (refreshing) {
                 await handleAnalyticsView()
                 await handleMyLeaveRequestView()
+                await handleWhosTakingLeave()
+                await handleAttendanceLogs()
+                if (userData.role.name === 'Staff') {
+                    await handleMyOvertimeSubmissions()
+                }
             }
             setRefreshing(false)
         }
@@ -379,7 +400,6 @@ const HomeModel = ({ navigation }) => {
     return {
         userData,
         clockIn,
-        clockOut,
         formattedDate,
         userAnalytics,
         leaveRequest,
@@ -388,6 +408,7 @@ const HomeModel = ({ navigation }) => {
         refreshing,
         overtimeSubmissions,
         takingLeaves,
+        attendaceLogs,
         errorMessage,
         handleClockIn,
         handleRequestClockOut,
@@ -395,7 +416,11 @@ const HomeModel = ({ navigation }) => {
         handleRequestLeave,
         handleDetailLeave,
         handleDetailOvertime,
-        setRefreshing
+        setRefreshing,
+        handleLeaveViewAll,
+        handleOvertimeViewAll,
+        handleTakingLeaveViewAll,
+        handleAttendanceViewAll
     }
 }
 

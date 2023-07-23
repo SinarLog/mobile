@@ -18,6 +18,11 @@ import HistoryIcon from "../assets/fileTextIcon/fileTextIcon.png"
 import ProfileIcon from "../assets/userIcon/userIcon.png"
 import { Image } from "react-native"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import MyLeaveRequestView from "../Screens/MyLeaveRequest/View"
+import MyOvertimeSubmissionView from "../Screens/MyOvertimeSubmission/View"
+import MyAttendanceLogView from "../Screens/MyAttendanceLog/View"
+import WhosTakingLeaveView from "../Screens/WhosTakingLeave/View"
+import OvertimeDetailView from "../Screens/OvertimeDetail/View"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
@@ -47,6 +52,11 @@ const HomeStackScreen = () => (
         <HomeStack.Screen name={PATH.OTP} component={OTPview} />
         <HomeStack.Screen name={PATH.requestLeave} component={LeaveRequestView}/>
         <HomeStack.Screen name={PATH.detailLeave} component={LeaveDetailView}/>
+        <HomeStack.Screen name={PATH.myLeaveRequest} component={MyLeaveRequestView}/>
+        <HomeStack.Screen name={PATH.myOvertimeSubmission} component={MyOvertimeSubmissionView}/>
+        <HomeStack.Screen name={PATH.myAttendanceLog} component={MyAttendanceLogView}/>
+        <HomeStack.Screen name={PATH.whosTakingLeave} component={WhosTakingLeaveView}/>
+        <HomeStack.Screen name={PATH.detailOvertime} component={OvertimeDetailView}/>
     </HomeStack.Navigator>
 )
 

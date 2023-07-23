@@ -1,4 +1,11 @@
 {
   "name": "MobileSinarlog",
-  "displayName": "MobileSinarlog"
+  "displayName": "MobileSinarlog",
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "3505959c-b6ba-4866-9c8a-c351a3400e79"
+      }
+    }
+  }
 }

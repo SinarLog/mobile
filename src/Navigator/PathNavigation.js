@@ -4,7 +4,7 @@ const PATH = {
     OnBoarding: "OnBoarding",
     tabHome: "Home",
     tabEmployee: "Employee",
-    tabHistory: "History",
+    tabHistory: "Proposal",
     tabProfile: "Profile",
     tabMain: "MainTab",
     Home: "HomeScreen",
@@ -14,6 +14,11 @@ const PATH = {
     OTP: "OTP",
     requestLeave: "RequestLeave",
     detailLeave: "DetailLeave",
+    myLeaveRequest: "MyLeaveRequest",
+    myOvertimeSubmission: "MyOvertimeSubmission",
+    myAttendanceLog: "MyAttendanceLog",
+    whosTakingLeave: "WhosTakingLeave",
+    detailOvertime: "DetailOvertime"
 }
 
 export default PATH

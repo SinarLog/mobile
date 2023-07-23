@@ -2,12 +2,19 @@ import { FlatList, Pressable, Text, View, Image } from "react-native"
 import { getInitials } from "../../../utils/helper"
 import NoDataIcon from "../../../assets/noDataIcon/noDataIcon.png"
 
-const TakingLeaveView = ({ takingLeaves }) => {
+const TakingLeaveView = ({ takingLeaves, handleViewAll }) => {
     return (
         <View>
             <View className="flex-row items-center justify-between mx-6 mt-8">
                 <Text className="text-textHitam text-base">Who's Taking Leave</Text>
-                <Text className="text-PrimaryNormal text-xs ml-4">View all</Text>
+                {
+                    takingLeaves.length > 0 ?
+                    <Pressable className="flex-row items-center" onPress={handleViewAll}>
+                        <Text className="text-PrimaryNormal text-xs ml-4">View all</Text>
+                    </Pressable>
+                    :
+                    null
+                }
             </View>
             <View className="mx-6 mt-4">
                 <FlatList 
@@ -20,7 +27,7 @@ const TakingLeaveView = ({ takingLeaves }) => {
                                 <View className="flex-row items-center">
                                     {
                                         item.avatar ? 
-                                        <Image source={{uri: item.avatar}} style={{width: 24, height: 24, borderRadius: 12}}/>
+                                        <Image source={{uri: item.avatar}} style={{width: 24, height: 24, borderRadius: 12, marginRight: 8}}/>
                                         :
                                         <View className='w-6 h-6 rounded-full bg-white mr-2 items-center justify-center border'>
                                             <Text style={{fontSize:10}}>{getInitials(item.fullName)}</Text>

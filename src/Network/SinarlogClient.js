@@ -2,7 +2,7 @@ import { getUserDefault } from "../LocalStorage/UserDefault"
 
 const { default: axios } = require("axios")
 
-const baseUrl = "http://10.0.2.2:8079/api/v2"
+const baseUrl = "https://sinarlog-backend-i3odwosdpa-et.a.run.app/api/v2"
 
 const sinarlogClient = axios.create({
     baseURL: baseUrl
@@ -16,5 +16,14 @@ sinarlogClient.interceptors.request.use( async (config) => {
     }
     return config
 })
+
+sinarlogClient.interceptors.response.use( 
+    function (response) {
+        return response.data.data
+    },
+    function (error) {
+        return Promise.reject(error.response.data.error.errors[0].message)
+    }
+)
 
 export default sinarlogClient

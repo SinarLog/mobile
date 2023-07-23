@@ -1,16 +1,20 @@
 import { FlatList, Image, Pressable, Text, View } from "react-native"
-import SliderIcon from "../../../assets/sliderIcon/sliderIcon.png"
 import NoDataIcon from "../../../assets/noDataIcon/noDataIcon.png"
+import { hexToRgbA } from "../../../utils/helper"
 
-const OvertimeView = ({ overtimeSubmissions, handleDetailOvertime }) => {
+const OvertimeView = ({ overtimeSubmissions, handleDetailOvertime, handleViewAll }) => {
     return (
         <View>
             <View className="flex-row items-center justify-between mx-6 mt-8">
                 <Text className="text-textHitam text-base">My Overtime Submissions</Text>
-                <View className="flex-row items-center">
-                    <Image source={SliderIcon} />
-                    <Text className="text-PrimaryNormal text-xs ml-4">View all</Text>
-                </View>
+                {
+                    overtimeSubmissions.length > 0 ?
+                    <Pressable className="flex-row items-center" onPress={handleViewAll}>
+                        <Text className="text-PrimaryNormal text-xs ml-4">View all</Text>
+                    </Pressable>
+                    :
+                    null
+                }
             </View>
             <View className="mx-6 mt-4">
                 <FlatList 
@@ -18,17 +22,17 @@ const OvertimeView = ({ overtimeSubmissions, handleDetailOvertime }) => {
                     keyExtractor={item => item.id}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
-                        <Pressable className="flex-row justify-between bg-white mb-2 rounded" onPress={() => handleDetailOvertime(item.id)}> 
-                            <View className="flex-row">
-                                <View className='w-2 rounded-md' style={{backgroundColor: item.color}}>
-                                </View>
-                                <View className="py-2 px-2">
-                                    <Text className="text-black text-xs">{item.requestDate}</Text>
-                                </View>
+                        <Pressable className="bg-white mb-2 rounded" onPress={() => handleDetailOvertime(item.id)}> 
+                            <View className="flex-row py-2 px-2">
+                                <Text className="text-black text-xs">{item.requestDate}</Text>
                             </View>
-                            <View className="py-2 pr-2">
-                                <Text className="text-black text-xs">{item.duration}</Text>
-                                <Text className='text-xs mt-2' style={{color: item.color}}>{item.status}</Text>
+                            <View className="flex-row justify-between py-2 px-2">
+                                <View className="flex-row items-center">
+                                        <Text className="text-black text-xs">{item.duration}</Text>
+                                    </View>
+                                <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA(item.color, 0.25)}}>
+                                    <Text className='capitalize' style={{color: item.color, fontSize:10}}>{item.status}</Text>
+                                </View>
                             </View>
                         </Pressable>
                     )}

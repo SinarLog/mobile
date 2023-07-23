@@ -6,17 +6,18 @@ import ArrowRightIcon from "../../assets/arrowRightIcon/arrowRightIcon.png"
 import CloseIcon from "../../assets/closeIcon/closeIcon.png"
 import CheckIcon from "../../assets/checkIcon/checkIcon.png"
 import HomeModel from "./Model"
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetTextInput } from "@gorhom/bottom-sheet"
+import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet"
 import LeaveView from "./components/LeaveView"
 import IncomingView from "./components/IncomingView"
 import AnalyticsView from "./components/AnalyticsView"
 import TabLeaveView from "./components/TabLeaveView"
 import TakingLeaveView from "./components/TakingLeaveView"
-import { getInitials } from "../../utils/helper"
+import { getInitials, getTimeString } from "../../utils/helper"
+import AttendanceView from "./components/AttendanceView"
 
 
 const HomeView = ({ navigation }) => {
-    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, errorMessage, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing } = HomeModel({ navigation })
+    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, attendaceLogs, errorMessage, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing, handleLeaveViewAll, handleOvertimeViewAll, handleTakingLeaveViewAll, handleAttendanceViewAll } = HomeModel({ navigation })
 
     const dataLayout = [{id: 0, userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, handleClockIn, handleRequestClockOut, handleRequestLeave, handleDetailLeave }]
 
@@ -55,37 +56,43 @@ const HomeView = ({ navigation }) => {
                             </View>
                             <View className="flex-row mt-4 items-center">
                                 <Image source={SunIcon} style={{width:16, height:16}}/>
-                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Good Morning {item.userData.fullName ? item.userData.fullName: ''}. You have not clock in yet. Have a good day</Text>
+                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Good Morning {item.userData.fullName ? item.userData.fullName: ''}. You have {item.clockIn ? 'clocked in':'not clock in yet'}. Have a good day</Text>
                             </View>
                             <View className="flex-row mt-4 items-center justify-between">
-                                <Pressable 
-                                    className={`flex-1 flex-row ${item.clockIn ? 'bg-clockBackground' :'bg-SuccessNormal'} py-3 items-center justify-center rounded-lg`}
-                                    onPress={item.handleClockIn}
-                                    disabled={item.clockIn !== null}
-                                    >
-                                    <Image source={ArrowLeftIcon} style={item.clockIn ? {tintColor:'#4C4C4C'} : null}/>
-                                    <Text className={`font-normal text-xs ${item.clockIn ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock In</Text>
-                                </Pressable>
-                                <Pressable 
-                                    className={`flex-1 flex-row ml-4 ${item.clockOut ? 'bg-clockBackground' :'bg-PrimaryNormal'} py-3 items-center justify-center rounded-lg`}
-                                    onPress={item.handleRequestClockOut}
-                                    disabled={item.clockOut !== null}
-                                >
-                                    <Image source={ArrowRightIcon} style={item.clockOut ? {tintColor:'#4C4C4C'} : null}/>
-                                    <Text className={`font-normal text-xs ${item.clockOut ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock Out</Text>
-                                </Pressable>
+                                {
+                                    item.clockIn ?
+                                    <>
+                                    <Pressable 
+                                        className={`flex-1 flex-row ${item.clockIn.clockInAt ? 'bg-clockBackground' :'bg-SuccessNormal'} py-3 items-center justify-center rounded-lg`}
+                                        onPress={item.handleClockIn}
+                                        disabled={item.clockIn.clockInAt !== null}
+                                        >
+                                        <Image source={ArrowLeftIcon} style={item.clockIn.clockInAt ? {tintColor:'#4C4C4C'} : null}/>
+                                        <Text className={`font-normal text-xs ${item.clockIn.clockInAt ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock In</Text>
+                                    </Pressable>
+                                    <Pressable 
+                                        className={`flex-1 flex-row ml-4 ${item.clockIn.clockOutAt ? 'bg-clockBackground' :'bg-PrimaryNormal'} py-3 items-center justify-center rounded-lg`}
+                                        onPress={item.handleRequestClockOut}
+                                        disabled={item.clockIn.clockOutAt !== null}
+                                        >
+                                        <Image source={ArrowRightIcon} style={item.clockIn.clockOutAt ? {tintColor:'#4C4C4C'} : null}/>
+                                        <Text className={`font-normal text-xs ${item.clockIn.clockOutAt ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock Out</Text>
+                                    </Pressable>
+                                    </>
+                                    : null
+                                }
                             </View>
                             {   item.clockIn ?
                                 <View className="flex-row mt-4 items-center justify-between">
                                     <View className="flex-row items-center">
                                         <Image source={ArrowLeftIcon} style={{width:24,height:24,tintColor:'#4BB543',marginRight:21}}/>
-                                        <Text className="text-textHitam font-medium text-xs">{item.clockIn.timeClockedIn}</Text>
+                                        <Text className="text-textHitam font-medium text-xs">{getTimeString(item.clockIn.clockInAt)}</Text>
                                     </View>
                                 {
-                                    item.clockOut ?
+                                    item.clockIn.clockOutAt ?
                                     <View className="flex-row items-center">
                                         <Image source={ArrowRightIcon} style={{width:24,height:24,tintColor:'#E54646',marginRight:21}}/>
-                                        <Text className="text-textHitam font-medium text-xs">{item.clockOut.timeClockedOut}</Text>
+                                        <Text className="text-textHitam font-medium text-xs">{getTimeString(item.clockIn.clockOutAt)}</Text>
                                     </View>
                                     : null
                                 }
@@ -114,13 +121,16 @@ const HomeView = ({ navigation }) => {
                                 handleDetailLeave={handleDetailLeave} 
                                 overtimeSubmissions={overtimeSubmissions} 
                                 handleDetailOvertime={handleDetailOvertime}
+                                handleLeaveViewAll={handleLeaveViewAll}
+                                handleOvertimeViewAll={handleOvertimeViewAll}
                             />
                             :
-                            <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave}/>
+                            <LeaveView leaveRequest={leaveRequest} handleDetailLeave={handleDetailLeave} handleViewAll={handleLeaveViewAll}/>
                             : 
                             null
                         }
-                        <TakingLeaveView takingLeaves={takingLeaves} />
+                        <TakingLeaveView takingLeaves={takingLeaves} handleViewAll={handleTakingLeaveViewAll}/>
+                        <AttendanceView attendanceLog={attendaceLogs} handleViewAll={handleAttendanceViewAll}/>
                     </View>
                 )}
             />

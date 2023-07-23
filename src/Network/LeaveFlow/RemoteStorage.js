@@ -1,38 +1,49 @@
 import sinarlogClient from "../SinarlogClient"
 
-export function postRequestLeave(leaveData) {
-    return new Promise((resolve, reject) => {
-        sinarlogClient.post('/empl/leaves/report',JSON.stringify(leaveData))
-        .then((res) => resolve(res.data.data))
-        .catch((err) => reject(err))
-    })
+export async function postRequestLeave(leaveData) {
+    const result = await sinarlogClient.post('/empl/leaves/report',JSON.stringify(leaveData))
+    return result
 }
 
-export function postApplyLeave(bodyFormData) {
-    return new Promise((resolve, reject) => {
-        sinarlogClient({
-            method: 'post',
-            url: '/empl/leaves',
-            data: bodyFormData,
-            headers: { "Content-Type": "multipart/form-data" }
-        })
-        .then((res) => resolve(res.data))
-        .catch((err) => reject(err.response.data.error.errors)) 
-    })
+export async function postApplyLeave(bodyFormData) {
+    const result = await sinarlogClient({
+                            method: 'post',
+                            url: '/empl/leaves',
+                            data: bodyFormData,
+                            headers: { "Content-Type": "multipart/form-data" }
+                        })
+    return result
 }
 
-export function getMyLeaveRequest() {
-    return new Promise((resolve, reject) => {
-        sinarlogClient.get('/empl/leaves')
-        .then((res) => resolve(res.data.data))
-        .catch((err) => reject(err.response))
+export async function getMyLeaveRequest(size, status, month, year, sort) {
+    let params = {}
+    if (size) {
+        params = {...params, size: size}
+    }
+    if (status) {
+        params = {...params, status: status.toLowerCase()}
+    }
+    if (month) {
+        params = {...params, month: month}
+    }
+    if (year) {
+        params = {...params, year: year}
+    }
+    if (sort) {
+        if (sort === 'Ascending') {
+            params = {...params, sort: 'ASC'}
+        } else {
+            params = {...params, sort: 'DESC'}
+        }
+    }
+    console.log(params);
+    const result = await sinarlogClient.get('/empl/leaves', {
+        params: params
     })
+    return result
 }
 
-export function getLeaveRequestById(id) {
-    return new Promise((resolve, reject) => {
-        sinarlogClient.get(`/empl/leaves/${id}`)
-        .then((res) => resolve(res.data.data))
-        .catch((err) => reject(err.response))
-    })
+export async function getLeaveRequestById(id) {
+    const result = await sinarlogClient.get(`/empl/leaves/${id}`)
+    return result
 }

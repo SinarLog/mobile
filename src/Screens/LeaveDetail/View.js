@@ -94,7 +94,7 @@ const LeaveDetailView = ({ navigation, route }) => {
                                         <Text className="text-textHitam text-xs font-normal capitalize">{item.type}</Text>
                                     </View>
                                     <Pressable className="bg-SecondaryNormal mt-4 py-1 items-center" style={{borderRadius:6}} onPress={() => handleDetailChild(item.id)}>
-                                        <Text className="text-white font-normal" style={{fontSize:10}}>Detail</Text>
+                                        <Text className="text-white font-normal text-xs" >Detail</Text>
                                     </Pressable>
                                 </AccordionView>
                                 )}
