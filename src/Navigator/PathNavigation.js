@@ -9,7 +9,7 @@ const PATH = {
     tabMain: "MainTab",
     Home: "HomeScreen",
     employee: "EmployeeScreen",
-    history: "HistoryScreen",
+    proposal: "HistoryScreen",
     profile: "ProfileScreen",
     OTP: "OTP",
     requestLeave: "RequestLeave",
@@ -18,7 +18,9 @@ const PATH = {
     myOvertimeSubmission: "MyOvertimeSubmission",
     myAttendanceLog: "MyAttendanceLog",
     whosTakingLeave: "WhosTakingLeave",
-    detailOvertime: "DetailOvertime"
+    detailOvertime: "DetailOvertime",
+    incomingLeaveDetail: "IncomingLeaveDetail",
+    incomingOvertimeDetail: "IncomingOvertimeDetail"
 }
 
 export default PATH

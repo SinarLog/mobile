@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 const WhosTakingLeaveModel = ({ navigation }) => {
-    const [searchView, setSearchView] = useState(false)
     const [inputFocused, setInputFocused] = useState(false)
     const [value, setValue] = useState('')
     const takingLeaves = [
@@ -83,8 +82,6 @@ const WhosTakingLeaveModel = ({ navigation }) => {
     ]
 
     const search = {
-        searchView,
-        setSearchView,
         inputFocused,
         setInputFocused,
         value,

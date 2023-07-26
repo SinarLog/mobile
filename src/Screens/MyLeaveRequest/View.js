@@ -135,31 +135,6 @@ const MyLeaveRequestView = ({ navigation }) => {
                             }
                             <Text className="text-textHitam font-semibold text-xs ml-4">Pending</Text>
                         </Pressable>
-                        {/* <FlatList
-                            data={status}
-                            keyExtractor={item => item.id}
-                            numColumns={2}
-                            renderItem={({ item }) => (
-                                
-                                selectedStatus.includes(item.title) ?
-                                
-                                <Pressable 
-                                    className="bg-PrimaryNormal flex-row py-2 px-4 rounded-full items-center mr-2 mb-2"
-                                    onPress={(event) => handleRemoveStatus(item.title)}    
-                                >
-                                    <Text className="text-white text-xs font-semibold mr-2">{item.title}</Text>
-                                    <Image source={CheckIcon} />
-                                </Pressable>
-                                : 
-                                <Pressable 
-                                    className="border-2 border-PrimaryNormal flex-row py-2 px-4 rounded-full items-center mr-2 mb-2"
-                                    onPress={(event) => handleAddStatus(item.title)}
-                                >
-                                    <Text className="text-PrimaryNormal text-xs font-semibold mr-2">{item.title}</Text>
-                                </Pressable>
-                                
-                            )}
-                        /> */}
                     </View>
                     <View className="mt-3">
                         <Text className="text-black font-semibold text-sm mb-4">Date</Text>

@@ -25,8 +25,8 @@ const AccordionView = ({ children, title }) => {
     const body = <View>{ children }</View>
 
     return (
-        <View className="bg-white px-4 mt-6 py-4">
-            <TouchableOpacity onPress={toggleItem} className="flex-row justify-between mb-2">
+        <View className="bg-white px-4 mt-6 py-4 border border-textHitam rounded-lg">
+            <TouchableOpacity onPress={toggleItem} className="flex-row justify-between mb-2 items-center">
                 <Text className="text-textHitam text-xs font-semibold">{ title }</Text>
                 <Image source={ChevronDownIcon} />
             </TouchableOpacity>

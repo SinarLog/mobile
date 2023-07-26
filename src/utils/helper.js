@@ -32,3 +32,22 @@ export const hexToRgbA = (hex, opacity) => {
   }
   throw new Error('Bad Hex')
 }
+
+export const getCurrentDateTimeAsString = () => {
+  const currentDate = new Date();
+
+  // Get the components of the date
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  // Get the components of the time
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+
+  // Combine the components into a string
+  const dateTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+  return dateTimeString;
+}

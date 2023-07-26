@@ -36,7 +36,7 @@ const LeaveDetailView = ({ navigation, route }) => {
                             </View>
                             <View className="flex-row items-center justify-between my-2">
                                 <Text className="text-textHitam text-xs font-semibold">Leave Duration</Text>
-                                <Text className="text-textHitam text-xs font-normal">duration</Text>
+                                <Text className="text-textHitam text-xs font-normal">{leaveDetail.duration}</Text>
                             </View>
                             <View className="flex-row items-center justify-between my-2">
                                 <Text className="text-textHitam text-xs font-semibold">Leave Type</Text>

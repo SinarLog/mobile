@@ -10,7 +10,6 @@ import LeaveRequestView from "../Screens/LeaveRequest/View"
 import LeaveDetailView from "../Screens/LeaveDetail/View"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import EmployeeView from "../Screens/Employee/View"
-import HistoryView from "../Screens/History/View"
 import ProfileView from "../Screens/Profile/View"
 import HomeIcon from "../assets/homeIcon/homeIcon.png"
 import EmployeeIcon from "../assets/usersIcon/usersIcon.png"
@@ -23,6 +22,9 @@ import MyOvertimeSubmissionView from "../Screens/MyOvertimeSubmission/View"
 import MyAttendanceLogView from "../Screens/MyAttendanceLog/View"
 import WhosTakingLeaveView from "../Screens/WhosTakingLeave/View"
 import OvertimeDetailView from "../Screens/OvertimeDetail/View"
+import ProposalView from "../Screens/Proposal/View"
+import IncomingLeaveDetailView from "../Screens/IncomingLeaveDetail/View"
+import IncomingOvertimeDetailView from "../Screens/IncomingOvertimeDetail/View"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
@@ -33,8 +35,10 @@ const ProfileStackScreen = () => (
 
 const HistoryStack = createNativeStackNavigator()
 const HistoryStackScreen = () => (
-    <HistoryStack.Navigator initialRouteName={PATH.history} screenOptions={{headerShown: false}}>
-        <HistoryStack.Screen name={PATH.history} component={HistoryView}/>
+    <HistoryStack.Navigator initialRouteName={PATH.proposal} screenOptions={{headerShown: false}}>
+        <HistoryStack.Screen name={PATH.proposal} component={ProposalView}/>
+        <HistoryStack.Screen name={PATH.incomingLeaveDetail} component={IncomingLeaveDetailView}/>
+        <HistoryStack.Screen name={PATH.incomingOvertimeDetail} component={IncomingOvertimeDetailView}/>
     </HistoryStack.Navigator>
 )
 
