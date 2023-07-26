@@ -270,7 +270,7 @@ const HomeModel = ({ navigation }) => {
 
     const handleWhosTakingLeave = async () => {
         try {
-            const data = await getWhosTakingLeave()
+            const data = await getWhosTakingLeave(5)
             if (data) {
                 setTakingLeaves(data)
             }          
@@ -315,7 +315,7 @@ const HomeModel = ({ navigation }) => {
             }
         } catch (error) {
             console.log('Error get Clock Out',error)
-            setErrorMessage(error[0].message)
+            setErrorMessage(error)
             handleModalErrorPresent()
         }
     }

@@ -1,6 +1,6 @@
 import sinarlogClient from "../SinarlogClient"
 
-export async function getWhosTakingLeave() {
+export async function getWhosTakingLeave(size) {
     const month = new Date().getMonth() + 1
     const year = new Date().getFullYear()
 
@@ -8,7 +8,8 @@ export async function getWhosTakingLeave() {
                         params: {
                             month: month.toString(),
                             year: year.toString(),
-                            version: 'mobile'
+                            version: 'mobile',
+                            size: size
                         }
                     })
     return result

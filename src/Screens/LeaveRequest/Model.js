@@ -1,7 +1,8 @@
-import { useMemo, useState, useEffect } from "react"
+import { useMemo, useState, useEffect, useCallback, useRef } from "react"
 import { postApplyLeave, postRequestLeave } from "../../Network/LeaveFlow/RemoteStorage"
 import DocumentPicker from 'react-native-document-picker'
 import PATH from "../../Navigator/PathNavigation"
+import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 
 const LeaveRequestModel = ({ navigation }) => {
 
@@ -72,7 +73,9 @@ const LeaveRequestModel = ({ navigation }) => {
                 setFile([pickerResult])
             }
         } catch (error) {
-            console.log('Error File Picker', error);
+            console.log('Error File Picker', error)
+            setErrorMessage(error)
+            handleBottomSheetErrorPresent()
         }
     }
 
@@ -114,7 +117,9 @@ const LeaveRequestModel = ({ navigation }) => {
                 setExcessLeave(result.excessLeaveDuration)
             }
         } catch (error) {
-            console.log('Error Post Request Leave', error.response.data.error.errors);
+            console.log('Error Post Request Leave', error)
+            setErrorMessage(error)
+            handleBottomSheetErrorPresent()
         }
     }
 
@@ -204,12 +209,40 @@ const LeaveRequestModel = ({ navigation }) => {
 
         try {
             const result = await postApplyLeave(bodyFormData)
-            console.log('Success Post Leave', result);
             navigation.replace(PATH.tabMain)
         } catch (error) {
-            console.log(bodyFormData);
             console.log('Error Apply Leave', error);
+            setErrorMessage(error)
+            handleBottomSheetErrorPresent()
         }
+    }
+
+    const [errorMessage, setErrorMessage] = useState('')
+    const bottomSheetError = useRef(null)
+    const snapPoints = useMemo(() => ['15%','25%','40%'],[])
+    const handleBottomSheetErrorPresent = useCallback(() => {
+        bottomSheetError.current?.present()
+    },[])
+    const handleBottomSheetErrorDismiss = useCallback(() => {
+        bottomSheetError.current?.dismiss()
+    },[])
+    const renderBackdrop = useCallback( 
+        props => (
+            <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={1}
+            disappearsOnIndex={0}
+        />
+        )
+    ,[])
+
+    const bottomSheet = {
+        errorMessage,
+        bottomSheetError,
+        snapPoints,
+        renderBackdrop,
+        handleBottomSheetErrorPresent,
+        handleBottomSheetErrorDismiss
     }
 
     const dropdown = {
@@ -262,7 +295,8 @@ const LeaveRequestModel = ({ navigation }) => {
         reasonInput,
         filePicker,
         validation,
-        leakage
+        leakage,
+        bottomSheet
     }
 }
 

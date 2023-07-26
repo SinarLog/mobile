@@ -5,6 +5,7 @@ import ArrowLeftIcon from "../../assets/arrowLeftIcon/arrowLeftIcon.png"
 import ArrowRightIcon from "../../assets/arrowRightIcon/arrowRightIcon.png"
 import CloseIcon from "../../assets/closeIcon/closeIcon.png"
 import CheckIcon from "../../assets/checkIcon/checkIcon.png"
+import ErrorIcon from "../../assets/errorIcon/errorIcon.png"
 import HomeModel from "./Model"
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet"
 import LeaveView from "./components/LeaveView"
@@ -56,7 +57,7 @@ const HomeView = ({ navigation }) => {
                             </View>
                             <View className="flex-row mt-4 items-center">
                                 <Image source={SunIcon} style={{width:16, height:16}}/>
-                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Good Morning {item.userData.fullName ? item.userData.fullName: ''}. You have {item.clockIn ? 'clocked in':'not clock in yet'}. Have a good day</Text>
+                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Good Morning {item.userData.fullName ? item.userData.fullName: ''}. You have {item.clockIn ? item.clockIn.clockInAt ? 'clocked in' : 'not clock in yet' : 'not clock in yet'}. Have a good day</Text>
                             </View>
                             <View className="flex-row mt-4 items-center justify-between">
                                 {
@@ -65,7 +66,7 @@ const HomeView = ({ navigation }) => {
                                     <Pressable 
                                         className={`flex-1 flex-row ${item.clockIn.clockInAt ? 'bg-clockBackground' :'bg-SuccessNormal'} py-3 items-center justify-center rounded-lg`}
                                         onPress={item.handleClockIn}
-                                        disabled={item.clockIn.clockInAt !== null}
+                                        disabled={item.clockIn.clockInAt != null}
                                         >
                                         <Image source={ArrowLeftIcon} style={item.clockIn.clockInAt ? {tintColor:'#4C4C4C'} : null}/>
                                         <Text className={`font-normal text-xs ${item.clockIn.clockInAt ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock In</Text>
@@ -73,7 +74,7 @@ const HomeView = ({ navigation }) => {
                                     <Pressable 
                                         className={`flex-1 flex-row ml-4 ${item.clockIn.clockOutAt ? 'bg-clockBackground' :'bg-PrimaryNormal'} py-3 items-center justify-center rounded-lg`}
                                         onPress={item.handleRequestClockOut}
-                                        disabled={item.clockIn.clockOutAt !== null}
+                                        disabled={item.clockIn.clockOutAt != null}
                                         >
                                         <Image source={ArrowRightIcon} style={item.clockIn.clockOutAt ? {tintColor:'#4C4C4C'} : null}/>
                                         <Text className={`font-normal text-xs ${item.clockIn.clockOutAt ? 'text-InactiveDarker':'text-SuccessLight'} ml-3`}>Clock Out</Text>
@@ -83,6 +84,7 @@ const HomeView = ({ navigation }) => {
                                 }
                             </View>
                             {   item.clockIn ?
+                                item.clockIn.clockInAt ?
                                 <View className="flex-row mt-4 items-center justify-between">
                                     <View className="flex-row items-center">
                                         <Image source={ArrowLeftIcon} style={{width:24,height:24,tintColor:'#4BB543',marginRight:21}}/>
@@ -97,7 +99,8 @@ const HomeView = ({ navigation }) => {
                                     : null
                                 }
                                 </View>
-                            : null
+                                : null
+                                : null
                             }
 
                         </View>
@@ -235,8 +238,8 @@ const HomeView = ({ navigation }) => {
                     <Pressable className="absolute right-2 top-1" onPress={bottomSheet.handleModalErrorDismiss}>
                         <Image source={CloseIcon}/>
                     </Pressable>
-                    <Image source={CheckIcon} />
-                    <Text className="text-black font-semibold text-xl">Oopps!</Text>
+                    <Image source={ErrorIcon} style={{width:60, height:60}}/>
+                    <Text className="text-black font-semibold text-xl">Error</Text>
                     <Text className="text-black font-medium text-xs text-center mt-4">{errorMessage}</Text>
                 </View>
             </BottomSheetModal>

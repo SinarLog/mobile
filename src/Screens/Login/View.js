@@ -1,12 +1,16 @@
-import { Image, Text, TextInput, View, TouchableHighlight } from "react-native"
+import { Image, Text, TextInput, View, TouchableHighlight, Pressable } from "react-native"
 import LogoLabelIcon from "../../assets/logoLabelIcon/logoLabelIcon.png"
+import CloseIcon from "../../assets/closeIcon/closeIcon.png"
+import ErrorIcon from "../../assets/errorIcon/errorIcon.png"
 import LoginModel from "./Model"
+import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
 
 const LoginView = ({ navigation }) => {
     const { 
         loginData,
         error,
+        bottomSheet,
         handleInputChange,
         handleLoginButton
     } = LoginModel({ navigation })
@@ -49,6 +53,22 @@ const LoginView = ({ navigation }) => {
             >
                 <Text className="text-white text-base">Login</Text>
             </TouchableHighlight>
+            <BottomSheetModal
+                ref={bottomSheet.bottomSheetError}
+                index={1}
+                snapPoints={bottomSheet.snapPoints}
+                backdropComponent={bottomSheet.renderBackdrop}
+                className="rounded-2xl bg-white"
+            >
+                <View className="items-center px-8 ">
+                    <Pressable className="absolute right-2 top-1" onPress={bottomSheet.handleBottomSheetErrorDismiss}>
+                        <Image source={CloseIcon}/>
+                    </Pressable>
+                    <Image source={ErrorIcon} style={{width:60, height:60}}/>
+                    <Text className="text-black font-semibold text-xl">Error</Text>
+                    <Text className="text-black font-medium text-xs text-center mt-4">{bottomSheet.errorMessage}</Text>
+                </View>
+            </BottomSheetModal>
         </View>
     )
 }

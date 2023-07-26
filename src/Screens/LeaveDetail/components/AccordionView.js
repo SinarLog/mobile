@@ -12,7 +12,7 @@ import ChevronDownIcon from "../../../assets/chevronDownIcon/chevronDownIcon.png
 
 if(Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
+}
 
 const AccordionView = ({ children, title }) => {
     const [expanded, setExpanded] = useState(false)

@@ -24,7 +24,12 @@ const WhosTakingLeaveView = ({ navigation }) => {
                     />
                     {
                         search.inputFocused ?
-                        <Pressable onPress={() => search.setValue('')}>
+                        <Pressable 
+                            onPress={() => {
+                                search.setValue('')
+                                search.setSearchView(!search.searchView)
+                            }}
+                        >
                             <Image source={XCircleIcon} style={{width: 20, height:20}} />
                         </Pressable>
                         :
@@ -35,7 +40,7 @@ const WhosTakingLeaveView = ({ navigation }) => {
                 </View>
                 :
                 <View className="bg-white flex-row items-center justify-between pt-7 px-6">
-                    <Pressable>
+                    <Pressable onPress={() => navigation.goBack()}>
                         <Image source={ChevronBackIcon}/>
                     </Pressable>
                     <Text className="text-textHitam text-sm font-semibold">Who's Taking leave</Text>

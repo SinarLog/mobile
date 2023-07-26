@@ -2,6 +2,7 @@ import { View, Pressable, Keyboard, TouchableOpacity, Text, Image } from "react-
 import OTPModel from "./Model"
 import OTPInput from "./OTPInput";
 import OTPIcon from "../../assets/OTPIcon/OTPIcon.png"
+import ChevronCloseIcon from "../../assets/chevronCloseIcon/chevronCloseIcon.png"
 
 const OTPview = ({ navigation, route }) => {
 
@@ -18,6 +19,9 @@ const OTPview = ({ navigation, route }) => {
 
     return (
         <Pressable className="flex-1 bg-white items-center justify-center px-6" onPress={Keyboard.dismiss}>
+            <Pressable className="absolute left-6" onPress={() => navigation.goBack()}>
+                <Image source={ChevronCloseIcon}/>
+            </Pressable>
             <Image source={OTPIcon} />
             <Text className="text-OTPHitam text-2xl font-bold mt-8">OTP Verification</Text>
             <Text className="text-OTPHitam text-xs font-normal mt-2">Please check your email to see the verification code</Text>

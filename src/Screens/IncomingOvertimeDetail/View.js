@@ -1,6 +1,6 @@
 import { View, Image, Text, FlatList, Pressable } from "react-native"
 import CloseIcon from "../../assets/closeIcon/closeIcon.png"
-import { getCurrentDateTimeAsString } from "../../utils/helper"
+import { getCurrentDateTimeAsString, getInitials } from "../../utils/helper"
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet"
 import IncomingOvertimeDetailModel from "./Model"
 import StatusView from "../IncomingLeaveDetail/components/StatusView"
@@ -22,6 +22,11 @@ const IncomingOvertimeDetailView = ({ navigation, route }) => {
                 keyExtractor={item => item.id}
                 renderItem={({ item }) => (
                     <View className="px-6 mt-6 mb-28">
+                        <View className="items-center">
+                            <View className='rounded-full bg-white items-center justify-center border' style={{width: 100, height:100}}>
+                                <Text style={{fontSize:40}}>{getInitials(item.fullName)}</Text>
+                            </View>
+                        </View>
                         <View className="bg-white p-4 border rounded-lg border-textHitam mt-6">
                             <View className="flex-row items-center justify-between mb-2">
                                 <Text className="text-textHitam text-xs font-semibold">Name</Text>

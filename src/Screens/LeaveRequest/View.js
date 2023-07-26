@@ -2,25 +2,31 @@ import { Text, View, FlatList, TextInput, Pressable, Image, Modal, TouchableWith
 import DropDownPicker from "react-native-dropdown-picker"
 import UploadIcon from "../../assets/uploadIcon/uploadIcon.png"
 import CloseIcon from "../../assets/closeIcon/closeIcon.png"
+import ChevronCloseIcon from "../../assets/chevronCloseIcon/chevronCloseIcon.png"
 import CalendarIcon from "../../assets/calendarIcon/calendarIcon.png"
 import BouncyCheckbox from "react-native-bouncy-checkbox"
+import ErrorIcon from "../../assets/errorIcon/errorIcon.png"
 import { Calendar } from "react-native-calendars"
 import LeaveRequestModel from "./Model"
+import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
 const LeaveRequestView = ({ navigation }) => {
-    const { dropdown, datePicker, reasonInput, filePicker, validation, leakage } = LeaveRequestModel({ navigation })
+    const { dropdown, datePicker, reasonInput, filePicker, validation, leakage, bottomSheet } = LeaveRequestModel({ navigation })
 
     const data = [{id:0}]
 
     return (
         <View className="bg-white">
-            <View className="items-center py-6">
-
+            <View className="bg-white flex-row p-6 items-center justify-center">
+                <Pressable className="absolute left-6" onPress={() => navigation.goBack()}>
+                    <Image source={ChevronCloseIcon}/>
+                </Pressable>
                 <Text className="text-OTPHitam text-base font-bold">Leave Request</Text>
             </View>
             <FlatList 
                 data={data}
                 keyExtractor={ item => item.id }
+                className="mb-40"
                 renderItem={ ({item}) => (
                     <View className="px-6 mt-2">
                         <View className="flex-row">
@@ -222,6 +228,22 @@ const LeaveRequestView = ({ navigation }) => {
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
+            <BottomSheetModal
+                ref={bottomSheet.bottomSheetError}
+                index={1}
+                snapPoints={bottomSheet.snapPoints}
+                backdropComponent={bottomSheet.renderBackdrop}
+                className="rounded-2xl bg-white"
+            >
+                <View className="items-center px-8 ">
+                    <Pressable className="absolute right-2 top-1" onPress={bottomSheet.handleBottomSheetErrorDismiss}>
+                        <Image source={CloseIcon}/>
+                    </Pressable>
+                    <Image source={ErrorIcon} style={{width:60, height:60}}/>
+                    <Text className="text-black font-semibold text-xl">Error</Text>
+                    <Text className="text-black font-medium text-xs text-center mt-4">{bottomSheet.errorMessage}</Text>
+                </View>
+            </BottomSheetModal>
         </View>
     )
 }

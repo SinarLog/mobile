@@ -68,7 +68,7 @@ const AttendanceView = ({ attendanceLog, handleViewAll}) => {
                     ListEmptyComponent={ () => (
                         <View className="bg-white py-4 items-center justify-center rounded">
                             <Image source={NoDataIcon}/>
-                            <Text className="text-textHitam text-xs font-semibold">Opps, you dont have leave request</Text>
+                            <Text className="text-textHitam text-xs font-semibold">Opps, you dont have any attendances</Text>
                         </View>
                     )}
                     />

@@ -25,11 +25,15 @@ import OvertimeDetailView from "../Screens/OvertimeDetail/View"
 import ProposalView from "../Screens/Proposal/View"
 import IncomingLeaveDetailView from "../Screens/IncomingLeaveDetail/View"
 import IncomingOvertimeDetailView from "../Screens/IncomingOvertimeDetail/View"
+import { useEffect, useState } from "react"
+import { getUserDefault } from "../LocalStorage/UserDefault"
+import ActivityLogView from "../Screens/ActivityLog/View"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
     <ProfileStack.Navigator initialRouteName={PATH.profile} screenOptions={{headerShown: false}}>
         <ProfileStack.Screen name={PATH.profile} component={ProfileView}/>
+        <ProfileStack.Screen name={PATH.activityLog} component={ActivityLogView}/>
     </ProfileStack.Navigator>
 )
 
@@ -66,6 +70,20 @@ const HomeStackScreen = () => (
 
 const Tab = createBottomTabNavigator()
 const MainTab = () => {
+    const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        loadUserData()
+    },[])
+
+    const loadUserData = async () => {
+        try {
+            const data = await getUserDefault()
+            setUserData({...userData, ...data})
+        } catch (error) {
+            console.log('Error user data main tab', error);
+        }
+    }
     return (
         <Tab.Navigator 
             initialRouteName={PATH.tabHome} 
@@ -89,7 +107,16 @@ const MainTab = () => {
         >
             <Tab.Screen name={PATH.tabHome} component={HomeStackScreen}/>
             <Tab.Screen name={PATH.tabEmployee} component={EmployeeStackScreen}/>
-            <Tab.Screen name={PATH.tabHistory} component={HistoryStackScreen}/>
+            {
+                userData.role ?
+                userData.role.name === 'Manager' ?
+
+                <Tab.Screen name={PATH.tabHistory} component={HistoryStackScreen}/>
+                :
+                null
+                :
+                null
+            }
             <Tab.Screen name={PATH.tabProfile} component={ProfileStackScreen}/>
         </Tab.Navigator>
     )

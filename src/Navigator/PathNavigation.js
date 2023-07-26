@@ -20,7 +20,8 @@ const PATH = {
     whosTakingLeave: "WhosTakingLeave",
     detailOvertime: "DetailOvertime",
     incomingLeaveDetail: "IncomingLeaveDetail",
-    incomingOvertimeDetail: "IncomingOvertimeDetail"
+    incomingOvertimeDetail: "IncomingOvertimeDetail",
+    activityLog: "ActivityLog"
 }
 
 export default PATH
