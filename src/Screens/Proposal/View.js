@@ -1,5 +1,5 @@
 import { View, Text, FlatList, ImageBackground, Pressable } from "react-native"
-import homeBackgroundIcon from "../../assets/homeBackgroundIcon/homeBackgroundIcon.png"
+import homeBackgroundIcon from "../../assets/homeSmallBackgroundIcon/homeSmallBackgroundIcon.png"
 import ProposalModel from "./Model"
 import React from "react"
 import IncomingViews from "./components/IncomingView"
@@ -16,7 +16,7 @@ const ProposalView = ({ navigation }) => {
                 keyExtractor={item => item.id}
                 renderItem={({item}) => (
                     <View>
-                        <ImageBackground source={homeBackgroundIcon} style={{height:180, width:'100%', display:"flex", justifyContent:"flex-end"}}>
+                        <ImageBackground source={homeBackgroundIcon} style={{height:120, width:'100%', display:"flex", justifyContent:"flex-end"}}>
                             <View className="flex-row mb-8 mx-6 rounded-2xl justify-around">
                                 <Pressable 
                                     className={`flex-1 ${topView.topTabView === 'Incoming' ? 'bg-white' : ''} py-2 rounded-2xl items-center mr-2`}

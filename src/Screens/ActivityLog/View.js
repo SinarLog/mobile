@@ -12,7 +12,7 @@ const ActivityLogView = ({ navigation, route }) => {
                 <Pressable className="absolute left-6" onPress={() => navigation.goBack()}>
                     <Image source={ChevronBackIcon}/>
                 </Pressable>
-                <Text className="text-base text-textHitam font-bold">Activity Log</Text>
+                <Text className="text-base text-textHitam font-bold">Changes Log</Text>
             </View>
             <FlatList
                 data={changeLogs}

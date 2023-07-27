@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { getChangeLogs, getProfile } from "../../Network/ProfileFlow/RemoteStorage"
+import { getProfile } from "../../Network/ProfileFlow/RemoteStorage"
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
+import PATH from "../../Navigator/PathNavigation"
+import { removeUserDefault } from "../../LocalStorage/UserDefault"
 
 const ProfileModel = ({ navigation }) => {
     const [profile, setProfile] = useState([])
@@ -35,8 +37,9 @@ const ProfileModel = ({ navigation }) => {
         />
         )
     ,[])
-    const handleLogout = () => {
-        
+    const handleLogout = async () => {
+        await removeUserDefault()
+        navigation.replace(PATH.Login)
     }
 
     const bottomSheet = {

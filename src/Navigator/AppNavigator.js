@@ -28,12 +28,16 @@ import IncomingOvertimeDetailView from "../Screens/IncomingOvertimeDetail/View"
 import { useEffect, useState } from "react"
 import { getUserDefault } from "../LocalStorage/UserDefault"
 import ActivityLogView from "../Screens/ActivityLog/View"
+import UpdatePasswordView from "../Screens/UpdatePassword/View"
+import EditProfileView from "../Screens/EditProfile/View"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
     <ProfileStack.Navigator initialRouteName={PATH.profile} screenOptions={{headerShown: false}}>
         <ProfileStack.Screen name={PATH.profile} component={ProfileView}/>
         <ProfileStack.Screen name={PATH.activityLog} component={ActivityLogView}/>
+        <ProfileStack.Screen name={PATH.updatePassword} component={UpdatePasswordView}/>
+        <ProfileStack.Screen name={PATH.editProfile} component={EditProfileView}/>
     </ProfileStack.Navigator>
 )
 

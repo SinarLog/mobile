@@ -21,7 +21,9 @@ const PATH = {
     detailOvertime: "DetailOvertime",
     incomingLeaveDetail: "IncomingLeaveDetail",
     incomingOvertimeDetail: "IncomingOvertimeDetail",
-    activityLog: "ActivityLog"
+    activityLog: "ActivityLog",
+    updatePassword: "UpdatePassword",
+    editProfile: "EditProfile"
 }
 
 export default PATH

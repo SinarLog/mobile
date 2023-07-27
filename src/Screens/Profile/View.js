@@ -126,14 +126,14 @@ const ProfileView = ({ navigation }) => {
                                 </View>
                             )}
                         />
-                        <Pressable className="py-2 px-4 bg-SuccessNormal rounded-md items-center mx-6" onPress={() => navigation.navigate(PATH.activityLog)}>
+                        <Pressable className="py-2 px-4 bg-SuccessNormal rounded-md items-center mx-6" onPress={() => navigation.navigate(PATH.editProfile)}>
                             <Text className="text-white text-base font-normal">Edit profile</Text>
                         </Pressable>
-                        <Pressable className="flex-row mx-6 mt-4 p-4 rounded-lg bg-white items-center justify-between">
+                        <Pressable className="flex-row mx-6 mt-4 p-4 rounded-lg bg-white items-center justify-between" onPress={() => navigation.navigate(PATH.updatePassword)}>
                             <Text className="text-xs text-textHitam font-medium">Update Password</Text>
                             <Image source={ChevronRightIcon} style={{width:20, height:20}}/>
                         </Pressable>
-                        <Pressable className="flex-row mx-6 mt-4 p-4 rounded-lg bg-white items-center justify-between">
+                        <Pressable className="flex-row mx-6 mt-4 p-4 rounded-lg bg-white items-center justify-between" onPress={() => navigation.navigate(PATH.activityLog)}>
                             <Text className="text-xs text-textHitam font-medium">Activity Log</Text>
                             <Image source={ChevronRightIcon} style={{width:20, height:20}}/>
                         </Pressable>
