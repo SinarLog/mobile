@@ -16,7 +16,7 @@ const LeaveRequestView = ({ navigation }) => {
     const data = [{id:0}]
 
     return (
-        <View className="bg-white">
+        <View className="flex-1 bg-white">
             <View className="bg-white flex-row p-6 items-center justify-center">
                 <Pressable className="absolute left-6" onPress={() => navigation.goBack()}>
                     <Image source={ChevronCloseIcon}/>
@@ -26,7 +26,6 @@ const LeaveRequestView = ({ navigation }) => {
             <FlatList 
                 data={data}
                 keyExtractor={ item => item.id }
-                className="mb-40"
                 renderItem={ ({item}) => (
                     <View className="px-6 mt-2">
                         <View className="flex-row">
@@ -88,6 +87,7 @@ const LeaveRequestView = ({ navigation }) => {
                                 paddingHorizontal: 16,
                                 marginTop:10,
                                 borderWidth: validation.error.reason ? 1 : 0,
+                                color: "black"
                             }}
                             className={`${ validation.error.reason ? 'border-PrimaryNormal' : ''}`}
                         />
@@ -116,7 +116,7 @@ const LeaveRequestView = ({ navigation }) => {
                                 {
                                     leakage.closeReminder ?
                                     <View className="mt-2 flex-row items-center">
-                                        <Text className="text-textHitam text-xs font-semibold flex-auto mr-4">your leave exceeds the quota. the remaining leave for {dropdown.value} is X days. Choose one of option below if you want to keep to request leave :</Text>
+                                        <Text className="text-textHitam text-xs font-semibold flex-auto mr-4">your leave exceeds the quota. the remaining leave for {dropdown.value} is {validation.isLeakage.remainingQuotaForRequestedType} days. Choose one of option below if you want to keep to request leave :</Text>
                                         <Pressable className="p-1 rounded-full bg-backgroundHomeItem flex-auto" onPress={leakage.handleCloseReminder}>
                                             <Image source={CloseIcon} style={{width:12,height:12,tintColor:'#E54646'}} />
                                         </Pressable>
@@ -126,7 +126,10 @@ const LeaveRequestView = ({ navigation }) => {
                                 <View className="flex-row mt-6">
                                     <View className="flex-1 mr-6">
                                         <BouncyCheckbox 
-                                            onPress={(isChecked) => leakage.handleCheckbox('annual',isChecked)} 
+                                            onPress={(isChecked) => {
+                                                leakage.handleCheckbox('annual',isChecked)
+                                                leakage.handleInputLeakage('annual', '')
+                                            }} 
                                             textContainerStyle={{tintColor:'#2D2D2D'}}
                                             iconStyle={{
                                                 borderRadius:4
@@ -145,7 +148,7 @@ const LeaveRequestView = ({ navigation }) => {
                                             text="Annual"
                                         />
                                         <TextInput 
-                                            className="bg-InactiveLightActive rounded-lg mt-2 py-2 px-4"
+                                            className="bg-InactiveLightActive rounded-lg mt-2 py-2 px-4 text-black"
                                             placeholder="Input here (Days)"
                                             editable={leakage.checkbox.annual}
                                             value={leakage.inputLeakage.annual}
@@ -156,7 +159,10 @@ const LeaveRequestView = ({ navigation }) => {
                                     </View>
                                     <View className="flex-1">
                                         <BouncyCheckbox 
-                                            onPress={(isChecked) => leakage.handleCheckbox('unpaid',isChecked)} 
+                                            onPress={(isChecked) => {
+                                                leakage.handleCheckbox('unpaid',isChecked)
+                                                leakage.handleInputLeakage('unpaid', '')
+                                            }} 
                                             textContainerStyle={{tintColor:'#2D2D2D'}}
                                             iconStyle={{
                                                 borderRadius:4
@@ -175,7 +181,7 @@ const LeaveRequestView = ({ navigation }) => {
                                             text="Unpaid"
                                             />
                                         <TextInput 
-                                            className="bg-InactiveLightActive rounded-lg mt-2 py-2 px-4"
+                                            className="bg-InactiveLightActive rounded-lg mt-2 py-2 px-4 text-black"
                                             placeholder="Days"
                                             editable={leakage.checkbox.unpaid}
                                             value={leakage.inputLeakage.unpaid}

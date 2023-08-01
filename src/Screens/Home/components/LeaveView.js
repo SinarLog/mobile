@@ -35,7 +35,7 @@ const LeaveView = ({ leaveRequest, handleDetailLeave, handleViewAll }) => {
                                     <Text className="text-black text-xs">{item.to}</Text>
                                 </View>
                             <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA(item.color, 0.25)}}>
-                                <Text className='capitalize' style={{color: item.color, fontSize:10}}>{item.status}</Text>
+                                <Text className='capitalize' style={{color: item.color, fontSize:12}}>{item.status}</Text>
                             </View>
                         </View>
                     </Pressable>

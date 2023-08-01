@@ -8,8 +8,6 @@ const StatusView = ({ status, top, nameHR, nameManager, timestampHR, timestampMa
                 <View className="flex-row items-center mt-4">
                     <View className="bg-InactiveDark h-3 w-3 rounded-full mr-3"></View>
                     <Text className="text-InactiveDarkActive font-semibold" style={{fontSize:10}}>Pending</Text>
-                    <View className="bg-textHitam h-1 w-1 rounded-sm mx-1"></View>
-                    <Text className="font-normal text-textHitam" style={{fontSize:10}}>{nameManager ? nameManager : nameHR} - {nameManager ? 'Manager' : 'HR'}</Text>
                 </View>
             </View> 
         )

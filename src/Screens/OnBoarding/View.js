@@ -48,7 +48,7 @@ const LoginButton = ({handleLoginButton}) => {
     return (
         <View className="flex items-center justify-center mb-10 px-6">
             <TouchableHighlight onPress={handleLoginButton} className="bg-PrimaryNormal py-3 rounded-md w-full items-center">
-                <Text className="text-white font-semibold">Login</Text>
+                <Text className="text-white font-semibold">Welcome</Text>
             </TouchableHighlight>
         </View>
     )

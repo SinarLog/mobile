@@ -9,7 +9,7 @@ import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet"
 
 const IncomingLeaveDetailView = ({ navigation, route }) => {
     const { isFromHistory } = route.params
-    const { userData, leaveDetail, buttonStatus, bottomSheet } = IncomingLeaveDetailModel({ navigation, route })
+    const { userData, leaveDetail, buttonStatus, bottomSheet, handleSubmitButton, handleDetailChild } = IncomingLeaveDetailModel({ navigation, route })
 
     return (
         <View className="bg-backgroundHome">
@@ -73,7 +73,7 @@ const IncomingLeaveDetailView = ({ navigation, route }) => {
                                 isFromHistory ?
                                 <StatusViewFromHistory status={item.view} top={12} nameHR={item.hr ? item.hr.fullName : null} nameManager={item.manager ? item.manager.fullName : null} timestampHR={item.actionByHrAt ? item.actionByHrAt : null} timestampManager={item.actionByManagerAt ? item.actionByManagerAt : null} reason={item.rejectionReason ? item.rejectionReason : null}/>
                                 :
-                                <StatusView status={buttonStatus.status} name={'Daffa'} timestamp={getCurrentDateTimeAsString()} reason={bottomSheet.reason}/>
+                                <StatusView status={buttonStatus.status} name={userData.fullName} timestamp={getCurrentDateTimeAsString()} reason={bottomSheet.reason}/>
                             }
                         </View>
                         {
@@ -169,8 +169,12 @@ const IncomingLeaveDetailView = ({ navigation, route }) => {
                             null
                             :
                             <View className="mt-6">
-                                <Pressable className="px-4 py-2 rounded-lg items-center bg-PrimaryNormal">
-                                    <Text className="text-xs font-normal text-white">Submit</Text>
+                                <Pressable 
+                                    className={`px-4 py-2 rounded-lg items-center ${ buttonStatus.status === 'pending' ? 'bg-InactiveNormal' : item.parent ? buttonStatus.statusParent === 'pending' ? 'bg-InactiveNormal' : 'bg-PrimaryNormal' : 'bg-PrimaryNormal'}`} 
+                                    onPress={() => handleSubmitButton()}
+                                    disabled={buttonStatus.status === 'pending' || ( item.parent && buttonStatus.statusParent === 'pending')}
+                                >
+                                    <Text className={`text-xs font-normal ${ buttonStatus.status === 'pending' ? 'text-InactiveDarker' : item.parent ? buttonStatus.statusParent === 'pending' ? 'text-InactiveDarker' : 'text-whitel' : 'text-white'}`}>Submit</Text>
                                 </Pressable>
                                 <Pressable 
                                     className="px-4 py-2 rounded-lg items-center" 
@@ -213,7 +217,8 @@ const IncomingLeaveDetailView = ({ navigation, route }) => {
                             alignSelf: 'stretch',
                             paddingVertical: 8,
                             paddingHorizontal: 16,
-                            marginTop:22
+                            marginTop:22,
+                            color: "black"
                         }}
                     />
                     <View className="flex-row mt-6">
@@ -253,7 +258,8 @@ const IncomingLeaveDetailView = ({ navigation, route }) => {
                             alignSelf: 'stretch',
                             paddingVertical: 8,
                             paddingHorizontal: 16,
-                            marginTop:22
+                            marginTop:22,
+                            color: "black"
                         }}
                     />
                     <View className="flex-row mt-6">

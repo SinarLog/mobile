@@ -155,7 +155,7 @@ const AttendanceView = () => {
                     className="text-xs flex-1 mr-2"
                     onPressIn={() => setInputFocused(true)}
                     onBlur={() => setInputFocused(false)}
-                    style={{paddingVertical:0}}
+                    style={{paddingVertical:0, color: "black"}}
                     value={value}
                     onChangeText={(text) => setValue(text)}
                     onEndEditing={loadDataWithFilter}
@@ -210,31 +210,31 @@ const AttendanceView = () => {
                             {
                                 !item.lateClockIn && !item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#4BB543', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#4BB543'}}>On Time</Text>
+                                    <Text className='capitalize' style={{color: '#4BB543', fontSize: 10}}>On Time</Text>
                                 </View>
                                 : 
                                 !item.lateClockIn && item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize' style={{color: '#E54646', fontSize: 10}}>Early Clock Out</Text>
                                 </View>
                                 :
                                 item.lateClockIn && item.earlyClockOut ?
                                 <>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize' style={{color: '#E54646', fontSize: 10}}>Late Clock In</Text>
                                 </View>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize' style={{color: '#E54646', fontSize: 10}}>Early Clock Out</Text>
                                 </View>
                                 </>
                                 : 
                                 item.lateClockIn ?
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize' style={{color: '#E54646', fontSize: 10}}>Late Clock In</Text>
                                 </View>
                                 : 
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#F0AD4E', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#F0AD4E'}}>Closed</Text>
+                                    <Text className='capitalize' style={{color: '#F0AD4E', fontSize: 10}}>Closed</Text>
                                 </View>
                             }
                         </View>

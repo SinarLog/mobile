@@ -10,7 +10,7 @@ import DropDownPicker from "react-native-dropdown-picker"
 const MyOvertimeSubmissionView = ({ navigation }) => {
     const { overtimeSubmissions, bottomSheet, handleBackButton, handleFilterButton, handleDetailOvertime } = MyOvertimeSubmissionModel({ navigation })
     return (
-        <View className="bg-backgroundHome">
+        <View className="flex-1 bg-backgroundHome">
             <View className="bg-white flex-row items-center justify-between pt-7 px-6">
                 <Pressable onPress={handleBackButton}>
                     <Image source={ChevronBackIcon}/>
@@ -35,7 +35,7 @@ const MyOvertimeSubmissionView = ({ navigation }) => {
                                     <Text className="text-black text-xs">{item.duration}</Text>
                                 </View>
                             <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA(item.color, 0.25)}}>
-                                <Text className='capitalize' style={{color: item.color, fontSize:10}}>{item.status}</Text>
+                                <Text className='capitalize' style={{color: item.color, fontSize:12}}>{item.status}</Text>
                             </View>
                         </View>
                     </Pressable>

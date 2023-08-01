@@ -6,13 +6,14 @@ import MyLeaveRequestModel from "./Model"
 import { hexToRgbA } from "../../utils/helper"
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 import DropDownPicker from "react-native-dropdown-picker"
+import PATH from "../../Navigator/PathNavigation"
 
 const MyLeaveRequestView = ({ navigation }) => {
     const { leaveRequest, bottomSheet, selectedOrder, selectedStatus, dropdownMonth, dropdownYear, handleClickOrder, handleClickStatus, handleBackButton, handleFilterButton } = MyLeaveRequestModel({ navigation })
 
     return (
 
-        <View className="bg-backgroundHome">
+        <View className="flex-1 bg-backgroundHome">
             <View className="bg-white flex-row items-center justify-between pt-7 px-6">
                 <Pressable onPress={handleBackButton}>
                     <Image source={ChevronBackIcon}/>
@@ -28,9 +29,9 @@ const MyLeaveRequestView = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 className="px-6 mt-4"
                 renderItem={({ item }) => (
-                    <Pressable className="bg-white mb-2 rounded" onPress={()=> console.log('nyoba wae')}> 
+                    <Pressable className="bg-white mb-2 rounded" onPress={()=> navigation.navigate(PATH.detailLeave, { id: item.id })}> 
                         <View className="flex-row justify-between py-2 px-2">
-                            <Text className="text-black text-xs">{item.leaveType}</Text>
+                            <Text className="text-black text-xs capitalize">{item.leaveType}</Text>
                             <Text className="text-black text-xs">{item.duration} {item.duration > 1 ? 'Days': 'Day'}</Text>
                         </View>
                         <View className="flex-row justify-between py-2 px-2">
@@ -40,7 +41,7 @@ const MyLeaveRequestView = ({ navigation }) => {
                                     <Text className="text-black text-xs">{item.to}</Text>
                                 </View>
                             <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA(item.color, 0.25)}}>
-                                <Text className='capitalize' style={{color: item.color, fontSize:10}}>{item.status}</Text>
+                                <Text className='capitalize' style={{color: item.color, fontSize:12}}>{item.status}</Text>
                             </View>
                         </View>
                     </Pressable>

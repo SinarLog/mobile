@@ -2,6 +2,8 @@ import { Image, Text, TextInput, View, TouchableHighlight, Pressable } from "rea
 import LogoLabelIcon from "../../assets/logoLabelIcon/logoLabelIcon.png"
 import CloseIcon from "../../assets/closeIcon/closeIcon.png"
 import ErrorIcon from "../../assets/errorIcon/errorIcon.png"
+import PasswordIcon from "../../assets/passwordIcon/passwordIcon.png"
+import PasswordOpenIcon from "../../assets/passwordOpenIcon/passwordOpenIcon.png"
 import LoginModel from "./Model"
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 
@@ -11,8 +13,10 @@ const LoginView = ({ navigation }) => {
         loginData,
         error,
         bottomSheet,
+        passwordView,
         handleInputChange,
-        handleLoginButton
+        handleLoginButton,
+        handleForgotPassword
     } = LoginModel({ navigation })
 
     return (
@@ -23,21 +27,30 @@ const LoginView = ({ navigation }) => {
             <Text className="text-xs font-semibold text-black mt-20">Email</Text>
             <TextInput
                 placeholder="email@email.com"
-                className="mt-3 px-5 bg-InactiveLight rounded-lg"
+                className="mt-3 px-5 bg-InactiveLight rounded-lg text-black"
                 onChangeText={(text) => handleInputChange('email',text)}
                 value={loginData.email}
+
             />
             <View className="flex-row justify-between">
                 <Text className="text-xs font-semibold text-black mt-5">Password</Text>
-                <Text className="text-xs font-semibold text-PrimaryNormal mt-5">Forgot your password?</Text>
+                <Pressable onPress={handleForgotPassword}>
+                    <Text className="text-xs font-semibold text-PrimaryNormal mt-5">Forgot your password?</Text>
+                </Pressable>
             </View>
-            <TextInput
-                placeholder="password here"
-                className="mt-3 px-5 bg-InactiveLight rounded-lg"
-                onChangeText={(text) => handleInputChange('password',text)}
-                value={loginData.password}
-                secureTextEntry={true}
-            />
+            <View className="flex-row items-center justify-between mt-3 py-2 px-5 bg-InactiveLight rounded-lg">
+                <TextInput
+                    placeholder="password here"
+                    onChangeText={(text) => handleInputChange('password',text)}
+                    value={loginData.password}
+                    style={{padding:0}}
+                    secureTextEntry={passwordView.password}
+                    className="text-black"
+                />
+                <Pressable onPress={() => passwordView.setPassword(!passwordView.password)}>
+                    <Image source={passwordView.password ? PasswordIcon : PasswordOpenIcon} style={{width:22, height:19}}/>
+                </Pressable>
+            </View>
             {
                 error.isNotValid ? 
                 <View className="flex justify-center items-center bg-PrimaryNormal/[0.1] py-2 mt-2 mb-6 rounded-lg">

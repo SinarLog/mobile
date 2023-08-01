@@ -9,7 +9,7 @@ const LeaveDetailView = ({ navigation, route }) => {
     const data = [{id: 0}]
 
     return (
-        <View className="bg-backgroundHome">
+        <View className="flex-1 bg-backgroundHome">
             <View className="bg-white flex-row p-6 items-center justify-center">
                 <Pressable className="absolute left-6" onPress={handleBackButton}>
                     <Image source={ChevronCloseIcon}/>
@@ -36,11 +36,11 @@ const LeaveDetailView = ({ navigation, route }) => {
                             </View>
                             <View className="flex-row items-center justify-between my-2">
                                 <Text className="text-textHitam text-xs font-semibold">Leave Duration</Text>
-                                <Text className="text-textHitam text-xs font-normal">{leaveDetail.duration}</Text>
+                                <Text className="text-textHitam text-xs font-normal">{leaveDetail.duration} {leaveDetail.duration > 1 ? 'Days' : 'Day'}</Text>
                             </View>
                             <View className="flex-row items-center justify-between my-2">
                                 <Text className="text-textHitam text-xs font-semibold">Leave Type</Text>
-                                <Text className="text-textHitam text-xs font-normal">{leaveDetail.type}</Text>
+                                <Text className="text-textHitam text-xs font-normal capitalize">{leaveDetail.type}</Text>
                             </View>
                             <View className="flex-row items-center justify-between mt-2">
                                 <Text className="text-textHitam text-xs font-semibold">Attachment</Text>

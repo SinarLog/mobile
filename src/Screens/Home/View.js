@@ -9,7 +9,6 @@ import ErrorIcon from "../../assets/errorIcon/errorIcon.png"
 import HomeModel from "./Model"
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet"
 import LeaveView from "./components/LeaveView"
-import IncomingView from "./components/IncomingView"
 import AnalyticsView from "./components/AnalyticsView"
 import TabLeaveView from "./components/TabLeaveView"
 import TakingLeaveView from "./components/TakingLeaveView"
@@ -18,7 +17,7 @@ import AttendanceView from "./components/AttendanceView"
 
 
 const HomeView = ({ navigation }) => {
-    const { userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, attendaceLogs, errorMessage, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing, handleLeaveViewAll, handleOvertimeViewAll, handleTakingLeaveViewAll, handleAttendanceViewAll } = HomeModel({ navigation })
+    const { date, userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, bottomSheet, reasonOvertime, refreshing, overtimeSubmissions, takingLeaves, attendaceLogs, errorMessage, handleClockIn, handleRequestClockOut, setReasonOvertime, handleRequestLeave, handleDetailLeave, handleDetailOvertime, setRefreshing, handleLeaveViewAll, handleOvertimeViewAll, handleTakingLeaveViewAll, handleAttendanceViewAll } = HomeModel({ navigation })
 
     const dataLayout = [{id: 0, userData, clockIn, clockOut, formattedDate, userAnalytics, leaveRequest, handleClockIn, handleRequestClockOut, handleRequestLeave, handleDetailLeave }]
 
@@ -53,11 +52,11 @@ const HomeView = ({ navigation }) => {
                             <View className="flex-row justify-between">
                                 <Text className="font-normal text-xs text-textHitam">Attendance</Text>
                                 <Text className="font-normal text-xs text-textHitam">{item.formattedDate}</Text>
-                                <Text className="font-normal text-xs text-textHitam">08:15:23</Text>
+                                <Text className="font-normal text-xs text-textHitam">{date.format("hh:mm:ss")}</Text>
                             </View>
                             <View className="flex-row mt-4 items-center">
                                 <Image source={SunIcon} style={{width:16, height:16}}/>
-                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Good Morning {item.userData.fullName ? item.userData.fullName: ''}. You have {item.clockIn ? item.clockIn.clockInAt ? 'clocked in' : 'not clock in yet' : 'not clock in yet'}. Have a good day</Text>
+                                <Text className="ml-5 font-normal text-xs text-textHitam text-start break-all">Hello, {item.userData.fullName ? item.userData.fullName: ''}! Have a wonderful time ahead.</Text>
                             </View>
                             <View className="flex-row mt-4 items-center justify-between">
                                 {
@@ -104,13 +103,13 @@ const HomeView = ({ navigation }) => {
                             }
 
                         </View>
-                        {
+                        {/* {
                             userData.role ?
                             userData.role.name === 'Manager' ? 
                             <IncomingView />
                             : null
                             : null
-                        }
+                        } */}
                         <AnalyticsView 
                             userAnalytics={userAnalytics} 
                             handleRequestLeave={handleRequestLeave}
@@ -133,7 +132,7 @@ const HomeView = ({ navigation }) => {
                             null
                         }
                         <TakingLeaveView takingLeaves={takingLeaves} handleViewAll={handleTakingLeaveViewAll}/>
-                        <AttendanceView attendanceLog={attendaceLogs} handleViewAll={handleAttendanceViewAll}/>
+                        <AttendanceView attendanceLog={attendaceLogs} handleViewAll={handleAttendanceViewAll} navigation={navigation}/>
                     </View>
                 )}
             />
@@ -197,7 +196,8 @@ const HomeView = ({ navigation }) => {
                             alignSelf: 'stretch',
                             paddingVertical: 8,
                             paddingHorizontal: 16,
-                            marginTop:22
+                            marginTop:22,
+                            color: "black"
                         }}
                     />
                     <View className="flex-row mt-6">

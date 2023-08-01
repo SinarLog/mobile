@@ -7,6 +7,7 @@ import MyAttendanceLogModel from "./Model"
 import { BottomSheetModal } from "@gorhom/bottom-sheet"
 import { hexToRgbA } from "../../utils/helper"
 import DropDownPicker from "react-native-dropdown-picker"
+import PATH from "../../Navigator/PathNavigation"
 
 const MyAttendanceLogView = ({ navigation }) => {
     const { attendanceLogs, bottomSheet, handleBackButton, handleFilterButton } = MyAttendanceLogModel({ navigation })
@@ -28,7 +29,7 @@ const MyAttendanceLogView = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
                 className="px-6 mt-4"
                 renderItem={({ item }) => (
-                    <Pressable className="bg-white mb-2 rounded" onPress={()=> console.log('nyoba wae')}> 
+                    <Pressable className="bg-white mb-2 rounded" onPress={()=> navigation.navigate(PATH.attendanceDetail, { item })}> 
                         <View className="flex-row justify-between py-2 px-2">
                             <Text className="text-black text-xs">{item.date}</Text>
                             <View className="flex-row">
@@ -40,31 +41,31 @@ const MyAttendanceLogView = ({ navigation }) => {
                             {
                                 !item.lateClockIn && !item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#4BB543', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#4BB543'}}>On Time</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#4BB543'}}>On Time</Text>
                                 </View>
                                 : 
                                 !item.lateClockIn && item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Early Clock Out</Text>
                                 </View>
                                 :
                                 item.lateClockIn && item.earlyClockOut ?
                                 <>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Late Clock In</Text>
                                 </View>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Early Clock Out</Text>
                                 </View>
                                 </>
                                 : 
                                 item.lateClockIn ?
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Late Clock In</Text>
                                 </View>
                                 : 
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#F0AD4E', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#F0AD4E'}}>Closed</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#F0AD4E'}}>Closed</Text>
                                 </View>
                             }
                         </View>

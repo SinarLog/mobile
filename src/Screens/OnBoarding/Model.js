@@ -33,26 +33,26 @@ const OnBoardingModel = ({navigation}) => {
         {
             id: 0,
             image: firstOnboardingIcon,
-            title: "Selamat datang di SinarLog!",
-            desc: "Untuk memastikan Anda dapat memanfaatkan platform kami dengan maksimal, berikut adalah tiga manfaat utama yang akan Anda temukan saat menggunakan SinarLog"
+            title: "Welcome to SinarLog!",
+            desc: "To ensure you make the most of our platform, here are three key benefits you'll discover while using Sinarlog"
         },
         {
             id: 1,
             image: secondOnboardingIcon,
-            title: "Kemudahan Mengisi Kehadiran hanya Sekali Klik",
-            desc: "Isi kehadiran Anda hanya dengan sekali klik. Tanpa ribet mengisi lembar absensi manual"
+            title: "Simplify Attedance with Just One Click!",
+            desc: "With SinarLog, you can mark your attendance with just a click, enjoy the ease without the need for complicated paperwork"
         },
         {
             id: 2,
             image: thirdOnboardingIcon,
-            title: "Pengajuan Cuti Mudah",
-            desc: "Proses pengajuan cuti menjadi lebih mudah. Sistem intuitif kami memungkinkan Anda mengisi detail cuti dengan cepat"
+            title: "Effortless Leave Request!",
+            desc: "Our leave request process allows you to fill in your leave details quickly, you can plan on your well-deserved time-off stress free"
         },
         {
             id: 3,
             image: FourthOnboardingIcon,
-            title: "Well-Managed Data",
-            desc: "Your attendance and leave data is managed properly and securely. The privacy and security of your information is our priority"
+            title: "Streamlined Attendance and Leave Management!",
+            desc: "SinarLog provides you with an intuitive system where  you can access your records anytime, anywhere with just a few clicks"
         }
     ]
     

@@ -15,7 +15,7 @@ const WhosTakingLeaveView = ({ navigation }) => {
                 <View className="bg-white flex-row items-center justify-between mt-7 mx-6 px-4 py-2 border border-InactiveDarker rounded-lg">
                     <TextInput
                         placeholder="Search by name"
-                        className="text-xs flex-1 mr-2"
+                        className="text-xs flex-1 mr-2 text-black"
                         onPressIn={() => search.setInputFocused(true)}
                         onBlur={() => search.setInputFocused(false)}
                         style={{paddingVertical:0}}

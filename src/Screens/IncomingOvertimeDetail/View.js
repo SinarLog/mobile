@@ -72,8 +72,8 @@ const IncomingOvertimeDetailView = ({ navigation, route }) => {
                             null
                             :
                             <View className="mt-6">
-                                <Pressable className="px-4 py-2 rounded-lg items-center bg-PrimaryNormal">
-                                    <Text className="text-xs font-normal text-white">Submit</Text>
+                                <Pressable className={`px-4 py-2 rounded-lg items-center ${ buttonStatus.status === 'pending' ? 'bg-InactiveDarker' : 'bg-PrimaryNormal'}`} onPress={() => handleSubmitButton()} disabled={buttonStatus.status === 'pending'}>
+                                    <Text className={`text-xs font-normal ${ buttonStatus.status === 'pending' ? 'text-InactiveNormal' : 'text-white'}`}>Submit</Text>
                                 </Pressable>
                                 <Pressable className="px-4 py-2 rounded-lg items-center" onPress={() => buttonStatus.setStatus('pending')}>
                                     <Text className="text-xs font-normal text-black">Cancel</Text>
@@ -111,7 +111,8 @@ const IncomingOvertimeDetailView = ({ navigation, route }) => {
                             alignSelf: 'stretch',
                             paddingVertical: 8,
                             paddingHorizontal: 16,
-                            marginTop:22
+                            marginTop:22,
+                            color: "black"
                         }}
                     />
                     <View className="flex-row mt-6">

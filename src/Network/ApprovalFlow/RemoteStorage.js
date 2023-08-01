@@ -161,3 +161,8 @@ export async function getStaffAttendanceHistory(size, name, status, month, year)
     const result = await sinarlogClient.get('/mngr/attendances/history', { params: params })
     return result
 }
+
+export async function patchOvertimesubmission(overtimeData) {
+    const result = await sinarlogClient.patch(`/mngr/proposals/overtimes/incoming`, JSON.stringify(overtimeData))
+    return result
+}

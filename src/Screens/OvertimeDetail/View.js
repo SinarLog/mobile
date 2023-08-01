@@ -7,7 +7,7 @@ const OvertimeDetailView = ({ navigation, route }) => {
     const { overtimeDetail, handleBackButton } = OvertimeDetailModel({ navigation, route })
     const data = [{id:0}]
     return (
-        <View className="bg-backgroundHome">
+        <View className="flex-1 bg-backgroundHome">
             <View className="bg-white flex-row p-6 items-center justify-center">
                 <Pressable className="absolute left-6" onPress={handleBackButton}>
                     <Image source={ChevronCloseIcon}/>

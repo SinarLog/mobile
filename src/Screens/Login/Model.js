@@ -1,8 +1,10 @@
-import { useState, useRef, useMemo, useCallback } from "react"
+import { useState, useRef, useMemo, useCallback, useEffect } from "react"
 import { postLogin } from "../../Network/AuthenticationFlow/RemoteStorage"
-import { setUserDefault } from "../../LocalStorage/UserDefault"
+import { getUserDefault, setUserDefault } from "../../LocalStorage/UserDefault"
 import PATH from "../../Navigator/PathNavigation"
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
+import { getLoginData, setLoginDatas } from "../../LocalStorage/loginData"
+import { isBiometricSupport } from "../../Biometrics/Biometrics"
 
 const LoginModel = ({ navigation }) => {
     const [error, setError] = useState({
@@ -13,6 +15,15 @@ const LoginModel = ({ navigation }) => {
         email: "",
         password: ""
     })
+    const[password, setPassword] = useState(true)
+
+    const passwordView = {
+        password, setPassword
+    }
+
+    useEffect(() => {
+        handleBiometrics()
+    },[])
 
     const handleInputChange = (key, inputValue) => {
         const newData = { ...loginData, [key]: inputValue }
@@ -22,6 +33,11 @@ const LoginModel = ({ navigation }) => {
             setError({
                 ...error,
                 ['isEmpty']: false
+            })
+        } else {
+            setError({
+                ...error,
+                ['isEmpty']: true
             })
         }
     }
@@ -39,6 +55,7 @@ const LoginModel = ({ navigation }) => {
                 handleBottomSheetErrorPresent()
             } else {
                 await setUserDefault(result)
+                await setLoginDatas(loginData)
                 navigation.replace(PATH.tabMain)
             }
         } catch (err) {
@@ -49,6 +66,29 @@ const LoginModel = ({ navigation }) => {
             })
             setErrorMessage(error)
         }
+    }
+
+    const handleBiometrics = async () => {
+        try {
+            const isLoggedIn = await getUserDefault()
+            if (isLoggedIn) {
+
+                const support = await isBiometricSupport()
+                console.log('result',support)
+                if (support) {
+                    const login = await getLoginData()
+                    const result = await postLogin(login)
+                    await setUserDefault(result)
+                    navigation.replace(PATH.tabMain)
+                }
+            }
+        } catch (error) {
+            console.log('Error Biometric',error);
+        }
+    }
+
+    const handleForgotPassword = () => {
+        navigation.navigate(PATH.forgotPassword)
     }
 
     const [errorMessage, setErrorMessage] = useState('')
@@ -83,8 +123,10 @@ const LoginModel = ({ navigation }) => {
         loginData,
         error,
         bottomSheet,
+        passwordView,
         handleInputChange,
-        handleLoginButton
+        handleLoginButton,
+        handleForgotPassword
     }
 }
 

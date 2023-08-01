@@ -51,3 +51,43 @@ export const getCurrentDateTimeAsString = () => {
 
   return dateTimeString;
 }
+
+function ConvertDDToDMS(D, lng) {
+  // -6.2040805 -> {S, 6, 12, 14.7}
+  return {
+      dir: D < 0 ? (lng ? "W" : "S") : lng ? "E" : "N",
+      deg: 0 | (D < 0 ? (D = -D) : D),
+      min: 0 | (((D += 1e-9) % 1) * 60),
+      sec: (0 | (((D * 60) % 1) * 6000)) / 100,
+  };
+}
+
+function ConvertDMSToGoogleDMS(dms) {
+  // {S, 6, 12, 14.7} -> 6°12'14.7"S
+  let str = ""
+  str += dms.deg + "°"
+  str += dms.min + "'"
+  str += dms.sec + '"'
+  str += dms.dir
+  return str
+}
+
+export const handleGoogleMaps = (latitude,longitude) => {
+  // https://www.google.com/maps/place/6°12'14.7"S+106°52'35.5"E/@-6.2040805,106.8765359,20z
+  let mapsUrl = "https://www.google.com/maps/"    
+  let place = "place/"
+
+  let lat = latitude
+  let dmsLat = ConvertDDToDMS(lat, false)
+  let strLat = ConvertDMSToGoogleDMS(dmsLat)
+
+  let lng = longitude
+  let dmsLng = ConvertDDToDMS(lng, true)
+  let strLng = ConvertDMSToGoogleDMS(dmsLng)
+
+  let zoom = 20
+
+  let finalUrl = mapsUrl + place + strLat + "+" + strLng + "/@" + lat + "," + lng + "," + zoom + "z"
+  return finalUrl
+  // window.open(finalUrl, "_blank")
+}

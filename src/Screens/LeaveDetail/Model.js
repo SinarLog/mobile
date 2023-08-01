@@ -2,9 +2,10 @@ import { getLeaveRequestById } from "../../Network/LeaveFlow/RemoteStorage"
 import { useEffect, useState, useCallback } from "react"
 import { Linking } from "react-native"
 import PATH from "../../Navigator/PathNavigation"
+import { getUserDefault } from "../../LocalStorage/UserDefault"
 
 const LeaveDetailModel = ({ navigation, route }) => {
-    const { id, userData } = route.params
+    const { id } = route.params
     const [leaveDetail, setLeaveDetail] = useState({})
 
     useEffect(() => {
@@ -15,9 +16,9 @@ const LeaveDetailModel = ({ navigation, route }) => {
         navigation.goBack()
     }
 
-
     const handleLoadDetail = async () => {
         try {
+            const userData = await getUserDefault()
             let result = await getLeaveRequestById(id)
 
             let view = ''

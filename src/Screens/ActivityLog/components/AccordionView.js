@@ -59,7 +59,7 @@ const AccordionView = ({ item }) => {
                     renderItem={({ item }) => (
                         <>
                         <View className="items-center mt-4">
-                            <Text className="text-textHitam text-xs font-semibold capitalize">Update {item.key}</Text>
+                            <Text className="text-textHitam text-xs font-semibold capitalize">Update {item.key.replace(/_/g, ' ')}</Text>
                         </View>
                         <View className="mt-2">
                             <Text className="text-black text-xs font-semibold">From</Text>

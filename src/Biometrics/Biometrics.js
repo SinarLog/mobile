@@ -2,25 +2,21 @@ const { default: ReactNativeBiometrics } = require("react-native-biometrics")
 
 export const isBiometricSupport = async () => {
     try {
-        const rnBiometrics = new ReactNativeBiometrics()
+        const rnBiometrics = new ReactNativeBiometrics({ allowDeviceCredentials: true })
         
         const { available, biometryType } = await rnBiometrics.isSensorAvailable()
-        
-        if (available && biometryType === ReactNativeBiometrics.TouchID) {
-            console.log('TouchID is supported', biometryType);
-        } else if (available && biometryType === ReactNativeBiometrics.FaceID) {
-            console.log('FaceID is supported', biometryType);
-        } else if (available && biometryType === ReactNativeBiometrics.Biometrics) {
+
+        if (available && biometryType ) {
             console.log('Biometrics is supported', biometryType);
+            const {success, error} = await rnBiometrics.simplePrompt({
+                promptMessage: 'Log in with Biometrics',
+                cancelButtonText: 'Close',
+            });
+            return success
         } else {
             console.log('Biometrics not supported');
         }
 
-        const {success, error} = await ReactNativeBiometrics.simplePrompt({
-            promptMessage: 'Sign in with Touch ID',
-            cancelButtonText: 'Close',
-        });
-        console.log({success, error});
 
     } catch (error) {
         console.log('Error Biometrics', error);

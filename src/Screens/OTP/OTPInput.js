@@ -56,7 +56,7 @@ const OTPInput = ({ code, setCode, maximumLength, setIsPinReady }) => {
             ref={inputRef}
             onBlur={handleOnBlur}
             inputMode="numeric"
-            className='absolute opacity-0'
+            className='absolute opacity-0 text-black'
             />
         </View>
     );

@@ -15,10 +15,10 @@ const EditProfileModel = ({ navigation }) => {
             setProfile([data])
             setInput({
                 ...input, 
-                personalPhoneNumber: data.biodata.phoneNumber,
+                personalPhoneNumber: data.biodata.phoneNumber.replace(/^\+62-/, ''),
                 personalAddress: data.biodata.address,
                 emerName: data.emergencyContacts[0].fullName,
-                emerPhoneNumber: data.emergencyContacts[0].phoneNumber
+                emerPhoneNumber: data.emergencyContacts[0].phoneNumber.replace(/^\+62-/, '')
             })
             setValue(data.emergencyContacts[0].relation)
         } catch (error) {

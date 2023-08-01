@@ -30,7 +30,7 @@ const TakingLeaveView = ({ takingLeaves, handleViewAll }) => {
                                         <Image source={{uri: item.avatar}} style={{width: 24, height: 24, borderRadius: 12, marginRight: 8}}/>
                                         :
                                         <View className='w-6 h-6 rounded-full bg-white mr-2 items-center justify-center border'>
-                                            <Text style={{fontSize:10}}>{getInitials(item.fullName)}</Text>
+                                            <Text className="text-black" style={{fontSize:12}}>{getInitials(item.fullName)}</Text>
                                         </View>
                                     }
                                     <Text className="text-black text-xs">{item.fullName}</Text>

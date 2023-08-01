@@ -110,10 +110,10 @@ const LeaveRequestModel = ({ navigation }) => {
         }
         try {
             const result = await postRequestLeave(leaveData)
-            console.log('SUCCESS post request leave',result);
             setIsLeakage({...isLeakage, ...result})
             if (!result.isLeaveLeakage) {
                 setEnableSend(true)
+            } else {
                 setExcessLeave(result.excessLeaveDuration)
             }
         } catch (error) {
@@ -152,7 +152,6 @@ const LeaveRequestModel = ({ navigation }) => {
     }
 
     useEffect(() => {
-        console.log(inputLeakage);
         if (inputLeakage.annual && inputLeakage.unpaid) {
             if (+inputLeakage.annual + +inputLeakage.unpaid === excessLeave) {
                 setEnableSend(true)

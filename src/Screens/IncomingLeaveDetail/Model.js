@@ -1,7 +1,8 @@
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import { useCallback, useMemo, useRef, useState, useEffect } from "react"
-import { getIncomingLeaveProposalByID, getLeaveProposalHistoryByID } from "../../Network/ApprovalFlow/RemoteStorage"
+import { getIncomingLeaveProposalByID, getLeaveProposalHistoryByID, patchLeaveProposal } from "../../Network/ApprovalFlow/RemoteStorage"
 import { getUserDefault } from "../../LocalStorage/UserDefault"
+import PATH from "../../Navigator/PathNavigation"
 
 const IncomingLeaveDetailModel = ({ navigation, route }) => {
     const { id, isFromHistory } = route.params
@@ -21,7 +22,6 @@ const IncomingLeaveDetailModel = ({ navigation, route }) => {
             } else {
                 data = await getIncomingLeaveProposalByID(id)
             }
-            console.log(data);
             if (data) {
                 let view = ''
                 if (data.status === 'REJECTED') {
@@ -104,6 +104,40 @@ const IncomingLeaveDetailModel = ({ navigation, route }) => {
         bottomSheetRejectParent.current?.dismiss()
     }
 
+    const handleSubmitButton = async () => {
+        try {
+            let leaveData = {
+                id: id,
+                reason: reason
+            }
+            if (status === 'rejected') {
+                leaveData = {...leaveData, approved: false}
+            } else {
+                leaveData = {...leaveData, approved: true}
+            }
+            if (leaveDetail.parent) {
+                let leaveDataParent = {
+                    id: leaveDetail.parent.id,
+                    reason: reasonParent
+                }
+                if (statusParent === 'rejected') {
+                    leaveDataParent = {...leaveDataParent, approved: false}
+                } else {
+                    leaveDataParent = {...leaveDataParent, approved: true}
+                }
+                leaveData = {...leaveData, childs: [leaveDataParent]}
+            }
+            await patchLeaveProposal(leaveData)
+            navigation.goBack()
+        } catch (error) {
+            console.log('Error Patch Leave proposal', error)
+        }
+    }
+
+    const handleDetailChild = (id) => {
+        navigation.push(PATH.incomingLeaveDetail, { id, isFromHistory })
+    }
+
     const buttonStatus = {
         status,
         statusParent,
@@ -132,7 +166,9 @@ const IncomingLeaveDetailModel = ({ navigation, route }) => {
         userData,
         leaveDetail,
         buttonStatus,
-        bottomSheet
+        bottomSheet,
+        handleSubmitButton,
+        handleDetailChild
     }
 }
 

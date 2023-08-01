@@ -1,8 +1,9 @@
 import { FlatList, Image, Pressable, Text, View } from "react-native"
 import NoDataIcon from "../../../assets/noDataIcon/noDataIcon.png"
 import { hexToRgbA } from "../../../utils/helper"
+import PATH from "../../../Navigator/PathNavigation"
 
-const AttendanceView = ({ attendanceLog, handleViewAll}) => {
+const AttendanceView = ({ attendanceLog, handleViewAll, navigation }) => {
     return (
         <View>
             <View className="flex-row items-center justify-between mx-6 mt-8">
@@ -23,7 +24,7 @@ const AttendanceView = ({ attendanceLog, handleViewAll}) => {
                     keyExtractor={item => item.date}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
-                        <Pressable className="bg-white mb-2 rounded"> 
+                        <Pressable className="bg-white mb-2 rounded" onPress={() => navigation.navigate(PATH.attendanceDetail, { item })}> 
                         <View className="flex-row justify-between py-2 px-2">
                             <Text className="text-black text-xs">{item.date}</Text>
                             <View className="flex-row">
@@ -35,31 +36,31 @@ const AttendanceView = ({ attendanceLog, handleViewAll}) => {
                             {
                                 !item.lateClockIn && !item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#4BB543', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#4BB543'}}>On Time</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#4BB543'}}>On Time</Text>
                                 </View>
                                 : 
                                 !item.lateClockIn && item.earlyClockOut ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Early Clock Out</Text>
                                 </View>
                                 :
                                 item.lateClockIn && item.earlyClockOut ?
                                 <>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Late Clock In</Text>
                                 </View>
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Early Clock Out</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Early Clock Out</Text>
                                 </View>
                                 </>
                                 : 
                                 item.lateClockIn ?
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#E54646', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#E54646'}}>Late Clock In</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#E54646'}}>Late Clock In</Text>
                                 </View>
                                 : 
                                 <View className="py-1 px-2 rounded-full ml-2" style={{backgroundColor: hexToRgbA('#F0AD4E', 0.25)}}>
-                                    <Text className='capitalize' style={{color: '#F0AD4E'}}>Closed</Text>
+                                    <Text className='capitalize text-xs' style={{color: '#F0AD4E'}}>Closed</Text>
                                 </View>
                             }
                         </View>

@@ -33,6 +33,7 @@ const EditProfileView = ({ navigation }) => {
                                 value={inputText.input.personalPhoneNumber}
                                 onChangeText={(text) => inputText.handleInputChange('personalPhoneNumber', text)}
                                 keyboardType="numeric"
+                                className="text-black"
                             />
                         </View>
                         <Text className="text-textHitam text-xs font-semibold mt-2">Address</Text>
@@ -52,13 +53,14 @@ const EditProfileView = ({ navigation }) => {
                                 paddingVertical: 8,
                                 paddingHorizontal: 16,
                                 marginTop:10,
+                                color: 'black'
                             }}
                         />
                         <Text className="text-textHitam text-xs font-bold mt-6">Emergency Contact Information</Text>
                         <Text className="text-textHitam text-xs font-semibold mt-6">Name</Text>
                         <TextInput
                             placeholder="name"
-                            style={{paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8, backgroundColor: "#F3F3F3", marginTop:8}}
+                            style={{paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8, backgroundColor: "#F3F3F3", marginTop:8, color: 'black'}}
                             value={inputText.input.emerName}
                             onChangeText={(text) => inputText.handleInputChange('emerName', text)}
                         />
@@ -67,7 +69,7 @@ const EditProfileView = ({ navigation }) => {
                             <Text className="text-black text-xs font-normal mr-4">+62</Text>
                             <TextInput
                                 placeholder="phone number"
-                                style={{padding: 0}}
+                                style={{padding: 0, color: "black"}}
                                 value={inputText.input.emerPhoneNumber}
                                 onChangeText={(text) => inputText.handleInputChange('emerPhoneNumber', text)}
                                 keyboardType="numeric"
@@ -101,7 +103,7 @@ const EditProfileView = ({ navigation }) => {
                             <Text className="text-textHitam text-xs font-semibold mt-6">Name</Text>
                             <TextInput
                                 placeholder="name"
-                                style={{paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8, backgroundColor: "#F3F3F3", marginTop:8}}
+                                style={{paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8, backgroundColor: "#F3F3F3", marginTop:8, color: "black"}}
                                 value={inputText.input.newName}
                                 onChangeText={(text) => inputText.handleInputChange('newName', text)}
                             />
@@ -110,7 +112,7 @@ const EditProfileView = ({ navigation }) => {
                                 <Text className="text-black text-xs font-normal mr-4">+62</Text>
                                 <TextInput
                                     placeholder="phone number"
-                                    style={{padding: 0}}
+                                    style={{padding: 0, color:"black"}}
                                     value={inputText.input.newPhoneNumber}
                                     onChangeText={(text) => inputText.handleInputChange('newPhoneNumber', text)}
                                     keyboardType="numeric"

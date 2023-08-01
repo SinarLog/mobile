@@ -10,7 +10,7 @@ const ProposalView = ({ navigation }) => {
     const data = [{id:0}]
 
     return (
-        <View className="bg-backgroundHome">
+        <View className="flex-1 bg-backgroundHome">
             <FlatList 
                 data={data}
                 keyExtractor={item => item.id}

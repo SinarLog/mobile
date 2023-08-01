@@ -8,8 +8,10 @@ import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import { getAnalytics } from "../../Network/AnalyticsFlow/RemoteStorage"
 import { getMyLeaveRequest } from "../../Network/LeaveFlow/RemoteStorage"
 import { getWhosTakingLeave } from "../../Network/EmployeeFlow/RemoteStorage"
+import dayjs from "dayjs"
 
 const HomeModel = ({ navigation }) => {
+    const [date, setDate] = useState(dayjs())
     const [userData, setUserData] = useState({})
     const [clockIn, setClockIn] = useState(null)
     const [analytics, setAnalytics] = useState({})
@@ -141,7 +143,11 @@ const HomeModel = ({ navigation }) => {
                 handleMyOvertimeSubmissions()
             }
         }
+        let timer = setInterval(() => {
+            setDate(dayjs())
+        }, 1000 * 1)
         fetchData()
+        return () => clearInterval(timer);
     },[])
 
     const handleClockIn = async () => {
@@ -364,19 +370,19 @@ const HomeModel = ({ navigation }) => {
         {
             id: 2,
             number: analytics ? analytics.lateClockIns : 0,
-            title: "Late Clock in",
-            desc: "days in month"
+            title: "Late Clock In",
+            desc: "times this month"
         },
         {
             id: 3,
             number: analytics ? analytics.earlyClockOuts : 0,
-            title: "Early Clock out",
-            desc: "days in month"
+            title: "Early Clock Out",
+            desc: "times this month"
         },
         {
             id: 4,
             number: analytics ? analytics.unpaidCount : 0,
-            title: "Unpaid leave request",
+            title: "Unpaid Leave",
             desc: "times in month"
         }
     ]
@@ -398,6 +404,7 @@ const HomeModel = ({ navigation }) => {
     },[refreshing])
 
     return {
+        date, 
         userData,
         clockIn,
         formattedDate,

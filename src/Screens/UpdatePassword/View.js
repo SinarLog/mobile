@@ -23,7 +23,7 @@ const UpdatePasswordView = ({ navigation }) => {
                 <View className="flex-row items-center justify-between py-2 px-4 mt-2 bg-InactiveLightActive rounded-lg">
                     <TextInput 
                         placeholder="New password"
-                        style={{padding:0}}
+                        style={{padding:0, color: "black"}}
                         secureTextEntry={visibility.passwordVisible.new}
                         maxLength={20}
                         className="flex-1"
@@ -40,7 +40,7 @@ const UpdatePasswordView = ({ navigation }) => {
                 <View className="flex-row items-center justify-between py-2 px-4 mt-2 bg-InactiveLightActive rounded-lg">
                     <TextInput 
                         placeholder="Confirm password"
-                        style={{padding:0}}
+                        style={{padding:0, color: "black"}}
                         secureTextEntry={visibility.passwordVisible.confirm}
                         maxLength={20}
                         className="flex-1"

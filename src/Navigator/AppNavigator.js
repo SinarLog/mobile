@@ -12,9 +12,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import EmployeeView from "../Screens/Employee/View"
 import ProfileView from "../Screens/Profile/View"
 import HomeIcon from "../assets/homeIcon/homeIcon.png"
+import HomeInactiveIcon from "../assets/homeInactiveIcon/homeInactiveIcon.png"
 import EmployeeIcon from "../assets/usersIcon/usersIcon.png"
+import EmployeeActiveIcon from "../assets/usersActiveIcon/usersActiveIcon.png"
 import HistoryIcon from "../assets/fileTextIcon/fileTextIcon.png"
+import HistoryActiveIcon from "../assets/fileTextActiveIcon/fileTextActiveIcon.png"
 import ProfileIcon from "../assets/userIcon/userIcon.png"
+import ProfileActiveIcon from "../assets/userActiveIcon/userActiveIcon.png"
 import { Image } from "react-native"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import MyLeaveRequestView from "../Screens/MyLeaveRequest/View"
@@ -30,6 +34,11 @@ import { getUserDefault } from "../LocalStorage/UserDefault"
 import ActivityLogView from "../Screens/ActivityLog/View"
 import UpdatePasswordView from "../Screens/UpdatePassword/View"
 import EditProfileView from "../Screens/EditProfile/View"
+import EmployeeDetailView from "../Screens/EmployeeDetail/View"
+import EmployeeHistoryView from "../Screens/EmployeeHistory/View"
+import ForgotPasswordView from "../Screens/ForgotPassword/View"
+import CheckEmailView from "../Screens/CheckEmail/View"
+import AttendanceDetailView from "../Screens/AttendanceDetail/View"
 
 const ProfileStack = createNativeStackNavigator()
 const ProfileStackScreen = () => (
@@ -54,6 +63,8 @@ const EmployeeStack = createNativeStackNavigator()
 const EmployeeStackScreen = () => (
     <EmployeeStack.Navigator initialRouteName={PATH.employee} screenOptions={{headerShown: false}}>
         <EmployeeStack.Screen name={PATH.employee} component={EmployeeView}/>
+        <EmployeeStack.Screen name={PATH.employeeDetail} component={EmployeeDetailView}/>
+        <EmployeeStack.Screen name={PATH.employeeHistory} component={EmployeeHistoryView}/>
     </EmployeeStack.Navigator>
 )
 
@@ -69,6 +80,7 @@ const HomeStackScreen = () => (
         <HomeStack.Screen name={PATH.myAttendanceLog} component={MyAttendanceLogView}/>
         <HomeStack.Screen name={PATH.whosTakingLeave} component={WhosTakingLeaveView}/>
         <HomeStack.Screen name={PATH.detailOvertime} component={OvertimeDetailView}/>
+        <HomeStack.Screen name={PATH.attendanceDetail} component={AttendanceDetailView}/>
     </HomeStack.Navigator>
 )
 
@@ -98,13 +110,13 @@ const MainTab = () => {
                 tabBarStyle: {paddingBottom:8,paddingTop:8},
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'Home') {
-                        return <Image source={HomeIcon} style={{width:20, height:20, tintColor: color}}/>
+                        return <Image source={ focused ? HomeIcon: HomeInactiveIcon} style={{width:20, height:20}}/>
                     } else if (route.name === 'Employee') {
-                        return <Image source={EmployeeIcon} style={{width:20, height:20, tintColor: color}}/>
-                    } else if (route.name === 'History') {
-                        return <Image source={HistoryIcon} style={{width:20, height:20, tintColor: color}}/>
+                        return <Image source={focused ? EmployeeActiveIcon : EmployeeIcon} style={{width:20, height:20}}/>
+                    } else if (route.name === 'Proposal') {
+                        return <Image source={focused ? HistoryActiveIcon : HistoryIcon} style={{width:20, height:20}}/>
                     } else {
-                        return <Image source={ProfileIcon} style={{width:20, height:20, tintColor: color}}/>
+                        return <Image source={focused ? ProfileActiveIcon : ProfileIcon} style={{width:20, height:20}}/>
                     }
                 } 
             })}
@@ -135,6 +147,8 @@ const AppNavigator = () => {
                     <Stack.Screen name={PATH.Splash} component={SplashView}/>
                     <Stack.Screen name={PATH.OnBoarding} component={OnBoardingView}/>
                     <Stack.Screen name={PATH.Login} component={LoginView}/>
+                    <Stack.Screen name={PATH.forgotPassword} component={ForgotPasswordView}/>
+                    <Stack.Screen name={PATH.checkEmail} component={CheckEmailView}/>
                     <Stack.Screen name={PATH.tabMain} component={MainTab}/>
                 </Stack.Navigator>
             </NavigationContainer>

@@ -80,7 +80,7 @@ const ProfileView = ({ navigation }) => {
                             <Text className="text-textHitam text-xs font-medium">Work Information</Text>
                             <View className="flex-row justify-between mt-4 mb-2">
                                 <Text className="text-textHitam text-xs font-normal">Employment Type</Text>
-                                <Text className="text-textHitam text-xs font-medium">{item.contractType}</Text>
+                                <Text className="text-textHitam text-xs font-medium capitalize">{item.contractType.replace(/_/g, ' ')}</Text>
                             </View>
                             <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
                             <View className="flex-row justify-between my-2">
@@ -100,13 +100,13 @@ const ProfileView = ({ navigation }) => {
                             <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
                             <View className="flex-row justify-between my-2">
                                 <Text className="text-textHitam text-xs font-normal">Leave Quota</Text>
-                                <Text className="text-textHitam text-xs font-medium">{item.leaveQuota.yearlyCount + item.leaveQuota.unpaidCount + item.leaveQuota.marriageCount}</Text>
+                                <Text className="text-textHitam text-xs font-medium">{item.leaveQuota.yearlyCount}</Text>
                             </View>
                             <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
                             <View className="flex-row justify-between my-2 items-center">
                                 <Text className="text-textHitam text-xs font-normal">Status</Text>
-                                <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA("#4BB543", 0.25)}}>
-                                    <Text className="font-medium capitalize" style={{color: "#4BB543", fontSize: 10}}>{item.status}</Text>
+                                <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA(item.color, 0.25)}}>
+                                    <Text className="font-medium capitalize" style={{color: item.color, fontSize: 10}}>{item.status.replace(/_/g, ' ')}</Text>
                                 </View>
                             </View>
                         </View>
@@ -134,7 +134,7 @@ const ProfileView = ({ navigation }) => {
                             <Image source={ChevronRightIcon} style={{width:20, height:20}}/>
                         </Pressable>
                         <Pressable className="flex-row mx-6 mt-4 p-4 rounded-lg bg-white items-center justify-between" onPress={() => navigation.navigate(PATH.activityLog)}>
-                            <Text className="text-xs text-textHitam font-medium">Activity Log</Text>
+                            <Text className="text-xs text-textHitam font-medium">Changes Log</Text>
                             <Image source={ChevronRightIcon} style={{width:20, height:20}}/>
                         </Pressable>
                         <Pressable className="mt-4 mx-6 py-2 px-4 rounded-md border-PrimaryNormal border bg-white items-center" onPress={bottomSheet.handleBottomSheetLogoutPresent}>

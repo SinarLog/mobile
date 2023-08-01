@@ -1,6 +1,6 @@
 import { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import { useCallback, useMemo, useRef, useState, useEffect } from "react"
-import { getIncomingOvertimeSubmissionByID, getOvertimeSubmissionHistoryByID } from "../../Network/ApprovalFlow/RemoteStorage"
+import { getIncomingOvertimeSubmissionByID, getOvertimeSubmissionHistoryByID, patchOvertimesubmission } from "../../Network/ApprovalFlow/RemoteStorage"
 import { getUserDefault } from "../../LocalStorage/UserDefault"
 
 const IncomingOvertimeDetailModel = ({ navigation, route }) => {
@@ -61,6 +61,23 @@ const IncomingOvertimeDetailModel = ({ navigation, route }) => {
         setStatus('rejected')
         bottomSheetReject.current?.dismiss()
     }
+    const handleSubmitButton = async () => {
+        try {
+            let overtimeData = {
+                id: id,
+                reason: reason
+            }
+            if (status === 'rejected') {
+                overtimeData = {...overtimeData, approved: false}
+            } else {
+                overtimeData = {...overtimeData, approved: true}
+            }
+            await patchOvertimesubmission(overtimeData)
+            navigation.goBack()
+        } catch (error) {
+            console.log('Error Patch Overtime Proposal', error);
+        }
+    }
 
     const buttonStatus = {
         status,
@@ -82,7 +99,8 @@ const IncomingOvertimeDetailModel = ({ navigation, route }) => {
         userData,
         overtimeDetail,
         buttonStatus,
-        bottomSheet
+        bottomSheet,
+        handleSubmitButton
     }
 }
 

@@ -11,7 +11,7 @@ const sinarlogClient = axios.create({
 sinarlogClient.interceptors.request.use( async (config) => {
     const userData = await getUserDefault()
 
-    if (config.url !== '/credentials/login') {
+    if (config.url !== '/credentials/login' && config.url !== '/pub/forgot-password') {
         config.headers['Authorization'] = `Bearer ${userData.accessToken}`
     }
     return config
