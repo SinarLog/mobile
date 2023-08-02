@@ -7,7 +7,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet"
 import PATH from "../../Navigator/PathNavigation"
 
 const ProfileView = ({ navigation }) => {
-    const { profile, bottomSheet } = ProfileModel({ navigation })
+    const { profile, bottomSheet, refresh } = ProfileModel({ navigation })
 
     return (
         <View className="bg-backgroundHome flex-1">
@@ -17,6 +17,8 @@ const ProfileView = ({ navigation }) => {
             <FlatList
                 data={profile}
                 keyExtractor={item => item.id}
+                refreshing={refresh.refreshing}
+                onRefresh={() => refresh.setRefreshing(true)}
                 renderItem={({ item }) => (
                     <View className="mt-6">
                         <View className="items-center">
@@ -76,6 +78,11 @@ const ProfileView = ({ navigation }) => {
                                 <Text className="text-textHitam text-xs font-medium">{item.biodata.npwp}</Text>
                             </View>
                         </View>
+                        <View className="bg-white p-4 mx-6 my-4 rounded-lg">
+                            <Text className="text-textHitam text-xs font-normal mb-1">Address</Text>
+                            <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
+                            <Text className="text-black text-xs font-normal mt-1">{item.biodata.address}</Text>
+                        </View>
                         <View className="bg-white p-4 mx-6 mt-6 mb-4 rounded-lg">
                             <Text className="text-textHitam text-xs font-medium">Work Information</Text>
                             <View className="flex-row justify-between mt-4 mb-2">
@@ -86,21 +93,6 @@ const ProfileView = ({ navigation }) => {
                             <View className="flex-row justify-between my-2">
                                 <Text className="text-textHitam text-xs font-normal">Job</Text>
                                 <Text className="text-textHitam text-xs font-medium">{item.job.name}</Text>
-                            </View>
-                            <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
-                            <View className="flex-row justify-between my-2">
-                                <Text className="text-textHitam text-xs font-normal">Role</Text>
-                                <Text className="text-textHitam text-xs font-medium">{item.role.name}</Text>
-                            </View>
-                            <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
-                            <View className="flex-row justify-between my-2">
-                                <Text className="text-textHitam text-xs font-normal">Join Date</Text>
-                                <Text className="text-textHitam text-xs font-medium">{item.joinDate}</Text>
-                            </View>
-                            <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
-                            <View className="flex-row justify-between my-2">
-                                <Text className="text-textHitam text-xs font-normal">Leave Quota</Text>
-                                <Text className="text-textHitam text-xs font-medium">{item.leaveQuota.yearlyCount}</Text>
                             </View>
                             <View style={{borderColor: "#F3F3F3", borderWidth: 0.5}}></View>
                             <View className="flex-row justify-between my-2 items-center">

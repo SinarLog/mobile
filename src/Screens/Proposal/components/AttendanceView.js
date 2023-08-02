@@ -60,11 +60,10 @@ const AttendanceView = () => {
 
         const newItem = selectedStatus.map( item => {
             const stat = {id: item, title: item}
-            return stat
+            filterArray = [...filterArray, stat]
+            return item
         })
-        console.log(newItem);
-        filterArray = [...filterArray, newItem]
-        console.log(filterArray);
+ 
         setfilter(filterArray)
     }
     const handleRemoveFilter = (title) => {
@@ -208,7 +207,7 @@ const AttendanceView = () => {
                         </View>
                         <View className="flex-row py-2 px-2 justify-end">
                             {
-                                !item.lateClockIn && !item.earlyClockOut ?
+                                !item.lateClockIn && !item.earlyClockOut && !item.closedAutomatically ?
                                 <View className="py-1 px-2 rounded-full" style={{backgroundColor: hexToRgbA('#4BB543', 0.25)}}>
                                     <Text className='capitalize' style={{color: '#4BB543', fontSize: 10}}>On Time</Text>
                                 </View>

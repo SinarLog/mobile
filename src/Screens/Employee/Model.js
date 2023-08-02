@@ -12,6 +12,7 @@ const EmployeeModel = ({ navigation }) => {
     const [openJobType, setopenJobType] = useState(false)
     const [value, setValue] = useState()
     const [items, setItems] = useState([
+        {label: 'All', value: 'all'},
         {label: 'Product Manager', value: 'd7012dff-9efa-4861-86ba-0f5c15882a1a'},
         {label: 'UI/UX Designer', value: 'f2ee9eff-13da-487b-b633-5237940ceb90'},
         {label: 'Software Developer', value: 'e40e3073-3a47-4008-a9c6-a6d3c84572d9'},
@@ -70,15 +71,15 @@ const EmployeeModel = ({ navigation }) => {
         }
     }
 
-    const loadDataWithFilter = async (value) => {
+    const loadDataWithFilter = async () => {
         try {
             const dataUser = await getUserDefault()
 
             let data
             if (dataUser.role.code === 'mngr') {
-                data = await getEmployeesList(value)
+                data = await getEmployeesList(value, input)
             } else {
-                data = await getEmployeesListAsEmployee(value)
+                data = await getEmployeesListAsEmployee(value, input)
             }
 
             if (data) {

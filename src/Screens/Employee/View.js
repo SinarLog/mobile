@@ -19,8 +19,14 @@ const EmployeeView = ({ navigation }) => {
                             placeholder="Search by name"
                             style={{padding:0, color:"black"}}
                             maxLength={30}
+                            value={searchView.input}
+                            onChangeText={(text) => searchView.setInput(text)}
+                            onEndEditing={() => dropdown.loadDataWithFilter()}
                         />
-                        <Pressable onPress={() => searchView.setSearch(false)}>
+                        <Pressable onPress={() => {
+                            searchView.setSearch(false)
+                            searchView.setInput('')
+                        }}>
                             <Image source={XCircleIcon} style={{width: 20, height: 20}}/>
                         </Pressable>
                     </View>
@@ -40,7 +46,7 @@ const EmployeeView = ({ navigation }) => {
                     items={dropdown.items}
                     setOpen={dropdown.setopenJobType}
                     setValue={dropdown.setValue}
-                    onChangeValue={(value) => dropdown.loadDataWithFilter(value)}
+                    onChangeValue={(value) => dropdown.loadDataWithFilter()}
                     placeholder="Filter by Job"
                     containerStyle={{
                         marginTop:16,

@@ -116,7 +116,7 @@ const LeaveRequestView = ({ navigation }) => {
                                 {
                                     leakage.closeReminder ?
                                     <View className="mt-2 flex-row items-center">
-                                        <Text className="text-textHitam text-xs font-semibold flex-auto mr-4">your leave exceeds the quota. the remaining leave for {dropdown.value} is {validation.isLeakage.remainingQuotaForRequestedType} days. Choose one of option below if you want to keep to request leave :</Text>
+                                        <Text className="text-textHitam text-xs font-semibold flex-auto mr-4">your leave exceeds the quota. the remaining leave for {dropdown.value} is {validation.isLeakage.remainingQuotaForRequestedType} days. The excess in your leave request made is {validation.isLeakage.excessLeaveDuration} days. Choose one of option below if you want to keep to request leave :</Text>
                                         <Pressable className="p-1 rounded-full bg-backgroundHomeItem flex-auto" onPress={leakage.handleCloseReminder}>
                                             <Image source={CloseIcon} style={{width:12,height:12,tintColor:'#E54646'}} />
                                         </Pressable>
@@ -155,7 +155,6 @@ const LeaveRequestView = ({ navigation }) => {
                                             onChangeText={(text) => leakage.handleInputLeakage('annual', text)}
                                             keyboardType="numeric"
                                         />
-                                        <Text className="font-normal text-xs">You have 3 Days left</Text>
                                     </View>
                                     <View className="flex-1">
                                         <BouncyCheckbox 

@@ -15,10 +15,13 @@ export async function getWhosTakingLeave(size) {
     return result
 }
 
-export async function getEmployeesList(jobId) {
+export async function getEmployeesList(jobId, name) {
     let params = {size: 9999999}
-    if (jobId) {
+    if (jobId && jobId !== 'all') {
         params = {...params, jobId: jobId}
+    }
+    if (name) {
+        params = {...params, fullName: name}
     }
     const result = await sinarlogClient.get('/mngr/employees',{params: params})
     return result
@@ -99,10 +102,13 @@ export async function getMyEmployeesAttendance(id, status, month, year) {
     return result
 }
 
-export async function getEmployeesListAsEmployee(jobId) {
+export async function getEmployeesListAsEmployee(jobId, name) {
     let params = {size: 9999999}
-    if (jobId) {
+    if (jobId && jobId !== 'all') {
         params = {...params, jobId: jobId}
+    }
+    if (name) {
+        params = {...params, fullName: name}
     }
     const result = await sinarlogClient.get('/empl/employees',{params: params})
     return result

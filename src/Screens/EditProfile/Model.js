@@ -30,14 +30,14 @@ const EditProfileModel = ({ navigation }) => {
         try {
             let contacts = [
                 {
-                    id: profile[0].emergencyContacts.id,
-                    employeeId: profile[0].emergencyContacts.employeeId,
+                    id: profile[0].emergencyContacts[0].id,
+                    employeeId: profile[0].emergencyContacts[0].employeeId,
                     fullName: input.emerName,
                     relation: value,
-                    phoneNumber: input.emerPhoneNumber
+                    phoneNumber: input.emerPhoneNumber === profile[0].emergencyContacts[0].phoneNumber.replace(/^\+62-/, '') ? profile[0].emergencyContacts[0].phoneNumber : input.emerPhoneNumber
                 }
             ]
-
+    
             if (newContact) {
                 const newEmer = {
                     fullName: input.newName,
@@ -46,10 +46,10 @@ const EditProfileModel = ({ navigation }) => {
                 }
                 contacts = [...contacts, newEmer]
             }
-
+    
             const profileData = {
                 id: profile[0].id,
-                phoneNumber: input.personalPhoneNumber,
+                phoneNumber: input.personalPhoneNumber === profile[0].biodata.phoneNumber.replace(/^\+62-/, '') ? profile[0].biodata.phoneNumber : input.personalPhoneNumber,
                 address: input.personalAddress,
                 contacts: contacts
             }

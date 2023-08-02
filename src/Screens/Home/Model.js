@@ -306,7 +306,7 @@ const HomeModel = ({ navigation }) => {
             if (data.isOvertime ) {
                 if (data.isOnHoliday) { 
                     handleModalOvertimeReason()
-                } else if (data.isOnHoliday) {
+                } else if (!data.isOnHoliday) {
                     handleModalOvertimeConfirmation()
                 }
             } else {

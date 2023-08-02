@@ -7,10 +7,21 @@ import { removeUserDefault } from "../../LocalStorage/UserDefault"
 
 const ProfileModel = ({ navigation }) => {
     const [profile, setProfile] = useState([])
+    const [refreshing, setRefreshing] = useState(false)
 
     useEffect(() => {
         loadProfile()
     },[])
+
+    useEffect(() => {
+        async function fetchData() {
+            if (refreshing) {
+                await loadProfile()
+            }
+            setRefreshing(false)
+        }
+        fetchData()
+    },[refreshing])
 
     const loadProfile = async () => {
         try {
@@ -65,9 +76,15 @@ const ProfileModel = ({ navigation }) => {
         handleLogout
     }
 
+    const refresh = {
+        refreshing,
+        setRefreshing
+    }
+
     return {
         profile,
-        bottomSheet
+        bottomSheet,
+        refresh
     }
 
 }

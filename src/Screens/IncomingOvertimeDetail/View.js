@@ -7,7 +7,7 @@ import StatusView from "../IncomingLeaveDetail/components/StatusView"
 
 const IncomingOvertimeDetailView = ({ navigation, route }) => {
     const { isFromHistory } = route.params
-    const { userData, overtimeDetail, buttonStatus, bottomSheet } = IncomingOvertimeDetailModel({ navigation, route })
+    const { userData, overtimeDetail, buttonStatus, bottomSheet, handleSubmitButton } = IncomingOvertimeDetailModel({ navigation, route })
 
     return (
         <View className="bg-backgroundHome">
@@ -72,8 +72,8 @@ const IncomingOvertimeDetailView = ({ navigation, route }) => {
                             null
                             :
                             <View className="mt-6">
-                                <Pressable className={`px-4 py-2 rounded-lg items-center ${ buttonStatus.status === 'pending' ? 'bg-InactiveDarker' : 'bg-PrimaryNormal'}`} onPress={() => handleSubmitButton()} disabled={buttonStatus.status === 'pending'}>
-                                    <Text className={`text-xs font-normal ${ buttonStatus.status === 'pending' ? 'text-InactiveNormal' : 'text-white'}`}>Submit</Text>
+                                <Pressable className={`px-4 py-2 rounded-lg items-center ${ buttonStatus.status === 'pending' ? 'bg-InactiveNormal' : 'bg-PrimaryNormal'}`} onPress={() => handleSubmitButton()} disabled={buttonStatus.status === 'pending'}>
+                                    <Text className={`text-xs font-normal ${ buttonStatus.status === 'pending' ? 'text-InactiveDarker' : 'text-white'}`}>Submit</Text>
                                 </Pressable>
                                 <Pressable className="px-4 py-2 rounded-lg items-center" onPress={() => buttonStatus.setStatus('pending')}>
                                     <Text className="text-xs font-normal text-black">Cancel</Text>

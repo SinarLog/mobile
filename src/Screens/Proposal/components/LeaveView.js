@@ -369,6 +369,18 @@ const LeaveView = ({ isFromHistory, navigation }) => {
                                 }
                                 <Text className="text-textHitam font-semibold text-xs ml-4">Closed</Text>
                             </Pressable>
+                            <Pressable className="flex-row mb-2" onPress={(event) => handleClickStatus('Pending')}>
+                                {
+                                    selectedStatus === 'Pending' ?
+                                    <View className="border-2 w-4 h-4 rounded-full border-PrimaryNormal items-center justify-center">
+                                        <View className="bg-PrimaryNormal rounded-full" style={{width:10, height:10}}></View>
+                                    </View>
+                                    :
+                                    <View className="border-2 w-4 h-4 rounded-full border-PrimaryNormal items-center justify-center"></View>
+
+                                }
+                                <Text className="text-textHitam font-semibold text-xs ml-4">Pending</Text>
+                            </Pressable>
                         </View>
                         :
                         null
